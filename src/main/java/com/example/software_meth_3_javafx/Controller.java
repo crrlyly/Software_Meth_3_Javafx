@@ -6,6 +6,10 @@ import javafx.scene.control.Label;
 //For all the event calls
 
 public class Controller {
+
+    //will run automatically once loaded
+    public void initialize(){}
+
     @FXML
     private Label welcomeText;
 
@@ -13,4 +17,6 @@ public class Controller {
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
+    //add the importFileChooser method she has in modules
 }

@@ -7,9 +7,6 @@ import com.example.software_meth_3_javafx.fleet.*;
 import com.example.software_meth_3_javafx.util.*;
 
 
-
-//For all the event calls
-
 public class Controller {
 
     @FXML
@@ -17,7 +14,6 @@ public class Controller {
     @FXML
     private ChoiceBox<Campus> campusDropDown;
 
-    //will run automatically once loaded
     public void initialize(){
         initializeEmployeeDropDown();
         initializeCampusDropDown();

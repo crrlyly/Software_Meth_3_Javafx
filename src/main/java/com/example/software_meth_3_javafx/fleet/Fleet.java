@@ -1,6 +1,10 @@
 package com.example.software_meth_3_javafx.fleet;
+
+import com.example.software_meth_3_javafx.util.Date;
+import com.example.software_meth_3_javafx.util.List;
+import com.example.software_meth_3_javafx.util.Sort;
+
 import java.util.Scanner;
-import com.example.software_meth_3_javafx.util.*;
 /**
  * This class creates a dynamic array of Vehicle objects that allows to add, remove,
  * find, and a print sorted by make (then obtained date).

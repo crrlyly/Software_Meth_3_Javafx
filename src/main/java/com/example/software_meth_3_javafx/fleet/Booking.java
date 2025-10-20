@@ -1,6 +1,6 @@
 package com.example.software_meth_3_javafx.fleet;
 
-import util.Date;
+import com.example.software_meth_3_javafx.util.Date;
 
 /**
  * This class implements bookings for the fleet including an equals and toString method.

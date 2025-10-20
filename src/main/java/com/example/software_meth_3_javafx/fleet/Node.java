@@ -1,4 +1,4 @@
-package fleet;
+package com.example.software_meth_3_javafx.fleet;
 /**
  * Implements the nodes of a linked list.
  *

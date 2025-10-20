@@ -1,8 +1,6 @@
-package fleet;
+package com.example.software_meth_3_javafx.fleet;
 import java.util.Scanner;
-import util.Date;
-import util.List;
-import util.Sort;
+import com.example.software_meth_3_javafx.util.*;
 /**
  * This class creates a dynamic array of Vehicle objects that allows to add, remove,
  * find, and a print sorted by make (then obtained date).
@@ -37,7 +35,7 @@ public class Fleet extends List<Vehicle>{
      */
     public Vehicle getVehicle(Vehicle vehicle) {
         int index = indexOf(vehicle);
-        return (index == util.List.NOT_FOUND) ? null : get(index);
+        return (index == List.NOT_FOUND) ? null : get(index);
     }
 
 

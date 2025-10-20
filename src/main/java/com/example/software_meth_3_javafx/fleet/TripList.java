@@ -1,5 +1,5 @@
-package fleet;
-import util.List;
+package com.example.software_meth_3_javafx.fleet;
+import com.example.software_meth_3_javafx.util.List;
 import java.text.DecimalFormat;
 /**
  * This class creates a circularly linked list of trips.

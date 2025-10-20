@@ -1,4 +1,4 @@
-package util;
+package com.example.software_meth_3_javafx.util;
 import java.util.Iterator;
 /**
  * This class creates a circularly linked list of trips.

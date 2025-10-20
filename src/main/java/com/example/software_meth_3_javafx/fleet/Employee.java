@@ -1,4 +1,4 @@
-package fleet;
+package com.example.software_meth_3_javafx.fleet;
 /**
  * This enum class represents employees by their last names.
  * Each employee also has a Department.

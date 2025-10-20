@@ -1,4 +1,4 @@
-package fleet;
+package com.example.software_meth_3_javafx.fleet;
 /**
  * An enum class that enumerates through different vehicle makes.
  * Provides methods for parsing and comparing make strings.

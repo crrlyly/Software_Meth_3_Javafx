@@ -1,5 +1,5 @@
-package fleet;
-import util.Date;
+package com.example.software_meth_3_javafx.fleet;
+import com.example.software_meth_3_javafx.util.Date;
 /**
  * This class implements a specific type of vehicle (Truck) to calculate the charge and surcharge.
  *

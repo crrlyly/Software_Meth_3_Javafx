@@ -1,5 +1,5 @@
-package fleet;
-import util.Date;
+package com.example.software_meth_3_javafx.fleet;
+import com.example.software_meth_3_javafx.util.Date;
 /**
  * The class represents a vehicle with a license plate, obtained date, make, mileage, and pickup campus.
  * Also has methods for comparison, equality checks, and string representation.

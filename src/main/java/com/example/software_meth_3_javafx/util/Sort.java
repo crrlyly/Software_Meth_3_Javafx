@@ -1,6 +1,6 @@
-package util;
-import fleet.Booking;
-import fleet.Vehicle;
+package com.example.software_meth_3_javafx.util;
+import com.example.software_meth_3_javafx.fleet.Booking;
+import com.example.software_meth_3_javafx.fleet.Vehicle;
 /**
  * This class creates a circularly linked list of trips.
  * Additionally, it inserts the trips in order of earliest end date, and can print the list/find the number of trips in the list.

@@ -1,4 +1,4 @@
-package fleet;
+package com.example.software_meth_3_javafx.fleet;
 /**
  * This class represents a trip with a booking, beginning mileage, and ending mileage,
  * Also has methods for equality checks and string representation.

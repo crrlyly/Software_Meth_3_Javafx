@@ -15,10 +15,19 @@ public class Controller {
     private ChoiceBox<Campus> campusDropDown;
 
     public void initialize(){
+        //For Vehicle Management
         initializeEmployeeDropDown();
         initializeCampusDropDown();
+
+        //For Vehicle Reservation
+
+        //For Vehicle Return
+
+        //For Vehicle Report
     }
 
+
+    // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
     @FXML
     private void initializeEmployeeDropDown(){
         employeeDropDown.getItems().addAll(Employee.values());
@@ -40,4 +49,11 @@ public class Controller {
     }
 
     //add the importFileChooser method she has in modules
+
+    // VEHICLE RESERVATION -----------------------------------------------------------------------------
+
+    // VEHICLE RETURN -----------------------------------------------------------------------------
+
+    // VEHICLE REPORT -----------------------------------------------------------------------------
+
 }

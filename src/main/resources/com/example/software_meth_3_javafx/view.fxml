@@ -27,43 +27,43 @@
                         <AnchorPane layoutX="83.0" layoutY="39.0">
                            <children>
                               <Label text="License Plate" />
-                              <TextField layoutX="99.0" layoutY="-5.0" prefHeight="26.0" prefWidth="160.0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane layoutX="102.0" layoutY="141.0">
-                           <children>
-                              <Label text="Make" />
-                              <RadioButton layoutX="57.0" mnemonicParsing="false" text="FORD" />
-                              <RadioButton layoutX="127.0" mnemonicParsing="false" text="TOYOTA" />
-                              <RadioButton layoutX="211.0" mnemonicParsing="false" text="CHEVY" />
-                              <RadioButton layoutX="280.0" mnemonicParsing="false" text="HONDA" />
+                              <TextField fx:id="licensePlateInput" layoutX="99.0" layoutY="-5.0" prefHeight="26.0" prefWidth="160.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="92.0" layoutY="84.0">
                            <children>
                               <Label layoutY="5.0" text="Date Obtained" />
-                              <DatePicker layoutX="90.0" prefHeight="26.0" prefWidth="232.0" />
+                              <DatePicker fx:id="dateInput" layoutX="90.0" prefHeight="26.0" prefWidth="232.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="102.0" layoutY="141.0">
+                           <children>
+                              <Label text="Make" />
+                              <RadioButton fx:id="fordButton" layoutX="57.0" mnemonicParsing="false" text="FORD" />
+                              <RadioButton fx:id="toyotaButton" layoutX="127.0" mnemonicParsing="false" text="TOYOTA" />
+                              <RadioButton fx:id="chevyButton" layoutX="211.0" mnemonicParsing="false" text="CHEVY" />
+                              <RadioButton fx:id="hondaButton" layoutX="280.0" mnemonicParsing="false" text="HONDA" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="106.0" layoutY="183.0">
                            <children>
                               <Label layoutY="5.0" text="Employee" />
-                              <ChoiceBox layoutX="76.0" prefHeight="26.0" prefWidth="234.0" />
+                              <ChoiceBox fx:id="employeeDropDown" layoutX="76.0" prefHeight="26.0" prefWidth="234.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="117.0" layoutY="229.0">
                            <children>
                               <Label layoutY="5.0" text="Campus" />
-                              <ChoiceBox layoutX="65.0" prefHeight="26.0" prefWidth="234.0" />
+                              <ChoiceBox fx:id="campusDropDown" layoutX="65.0" prefHeight="26.0" prefWidth="234.0" />
                            </children>
                         </AnchorPane>
+                        <Button fx:id="AddBtn" layoutX="220.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet" />
+                        <Button fx:id="removeBtn" layoutX="394.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Remove from Fleet" />
                         <AnchorPane layoutY="332.0" prefHeight="242.0" prefWidth="560.0">
                            <children>
-                              <TextArea prefHeight="248.0" prefWidth="560.0" promptText="Output text..." />
+                              <TextArea fx:id="outputTextArea" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." />
                            </children>
                         </AnchorPane>
-                        <Button layoutX="220.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet" />
-                        <Button layoutX="394.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Remove from Fleet" />
                      </children></AnchorPane>
             </content>
           </Tab>

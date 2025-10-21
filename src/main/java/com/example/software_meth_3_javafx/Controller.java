@@ -9,17 +9,22 @@ import com.example.software_meth_3_javafx.util.*;
 
 public class Controller {
 
-    @FXML
-    private ChoiceBox<Employee> employeeDropDown;
-    @FXML
-    private ChoiceBox<Campus> campusDropDown;
-    @FXML
-    private ChoiceBox<String> printReservationsDropDown;
-    @FXML
-    private ChoiceBox<String> printCompletedTripsDropDown;
+    @FXML private TextField licensePlateInput;
+    @FXML private DatePicker dateInput;
+    @FXML private RadioButton fordButton;
+    @FXML private RadioButton toyotaButton;
+    @FXML private RadioButton hondaButton;
+    @FXML private RadioButton chevyButton;
+    @FXML private ChoiceBox<Employee> employeeDropDown;
+    @FXML private ChoiceBox<Campus> campusDropDown;
+    @FXML private Button AddBtn;
+    @FXML private ChoiceBox<String> printReservationsDropDown;
+    @FXML private ChoiceBox<String> printCompletedTripsDropDown;
+    private ToggleGroup vehicleManagementGroup;
 
     public void initialize(){
         //For Vehicle Management
+        setToggleGroupVehicleManagement();
         initializeEmployeeDropDown();
         initializeCampusDropDown();
 
@@ -53,6 +58,17 @@ public class Controller {
             }
         });
     }
+
+    @FXML
+    private void setToggleGroupVehicleManagement(){
+        vehicleManagementGroup = new ToggleGroup();
+        fordButton.setToggleGroup(vehicleManagementGroup);
+        toyotaButton.setToggleGroup(vehicleManagementGroup);
+        hondaButton.setToggleGroup(vehicleManagementGroup);
+        chevyButton.setToggleGroup(vehicleManagementGroup);
+    }
+
+
 
     //add the importFileChooser method she has in modules
 

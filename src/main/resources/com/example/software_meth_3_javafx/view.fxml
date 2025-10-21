@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.software_meth_3_javafx.Controller">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.software_meth_3_javafx.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -29,7 +16,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane layoutX="-5.0" layoutY="14.0" prefHeight="308.0" prefWidth="570.0">
+                        <GridPane layoutX="-5.0" layoutY="14.0" prefHeight="351.0" prefWidth="570.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.00001220703126" minWidth="0.0" prefWidth="170.3999755859375" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.80002441406253" minWidth="10.0" prefWidth="396.80002441406253" />
@@ -38,8 +25,9 @@
                             <RowConstraints maxHeight="104.79999389648438" minHeight="10.0" prefHeight="59.5999755859375" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="192.80000534057618" minHeight="0.0" prefHeight="56.4000244140625" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="41.59998779296875" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="212.8000061035156" minHeight="4.199991607666021" prefHeight="44.19999999999999" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="57.99999084472657" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="212.8000061035156" minHeight="4.199991607666021" prefHeight="51.79999999999998" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="47.39998474121094" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="69.99997558593748" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -96,7 +84,16 @@
                                     <Insets left="20.0" />
                                  </GridPane.margin>
                               </ChoiceBox>
-                              <HBox alignment="CENTER" prefHeight="57.0" prefWidth="398.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                              <Label text="Mileage" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
+                              <TextField fx:id="mileageTextField" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" right="250.0" />
+                                 </GridPane.margin>
+                              </TextField>
+                              <HBox alignment="CENTER" prefHeight="57.0" prefWidth="398.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                                  <children>
                                     <Button fx:id="AddBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
                                        <font>
@@ -118,7 +115,7 @@
                               </HBox>
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaManagement" prefHeight="234.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement" prefHeight="200.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>

@@ -13,6 +13,10 @@ public class Controller {
     private ChoiceBox<Employee> employeeDropDown;
     @FXML
     private ChoiceBox<Campus> campusDropDown;
+    @FXML
+    private ChoiceBox<String> printReservationsDropDown;
+    @FXML
+    private ChoiceBox<String> printCompletedTripsDropDown;
 
     public void initialize(){
         //For Vehicle Management
@@ -24,6 +28,8 @@ public class Controller {
         //For Vehicle Return
 
         //For Vehicle Report
+        initializePrintReservationsDropDown();
+        initializePrintCompletedTrips();
     }
 
 
@@ -43,7 +49,7 @@ public class Controller {
         campusDropDown.getItems().addAll(Campus.values());
         campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                System.out.println("Selected: " + newVal.name() + " (" + newVal.getCity() + ")");
+                System.out.println("Selected: " + newVal);
             }
         });
     }
@@ -55,5 +61,51 @@ public class Controller {
     // VEHICLE RETURN -----------------------------------------------------------------------------
 
     // VEHICLE REPORT -----------------------------------------------------------------------------
+    @FXML
+    private void initializePrintReservationsDropDown(){
+        String[] options = {"by department/employee (PD)", "by location/plate/beginning date (PR)"};
+        printReservationsDropDown.getItems().addAll(options);
+        printReservationsDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                System.out.println("Selected: " + newVal);
 
+//                switch (newVal) {
+//                    case "by department/employee (PD)":
+//                        handlePrintByDepartment();
+//                        break;
+//
+//                    case "by location/plate/beginning date (PR)":
+//                        handlePrintByLocation();
+//                        break;
+//
+//                    default:
+//                        System.out.println("Unknown selection");
+//                }
+            }
+        });
+    }
+
+    @FXML
+    private void initializePrintCompletedTrips(){
+        String[] options = {"by plate/ending date (PT)", "cost report by department (PC)"};
+        printCompletedTripsDropDown.getItems().addAll(options);
+        printCompletedTripsDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                System.out.println("Selected: " + newVal);
+
+//                switch (newVal) {
+//                    case "by department/employee (PD)":
+//                        handlePrintByDepartment();
+//                        break;
+//
+//                    case "by location/plate/beginning date (PR)":
+//                        handlePrintByLocation();
+//                        break;
+//
+//                    default:
+//                        System.out.println("Unknown selection");
+//                }
+            }
+        });
+    }
 }

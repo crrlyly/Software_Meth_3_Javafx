@@ -70,4 +70,9 @@ public enum Campus {
         }
         return len1 - len2;
     }
+
+    @Override
+    public String toString() {
+        return name() + ", " + getCity();
+    }
 }

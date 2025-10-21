@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.software_meth_3_javafx.Controller">
     <padding>
@@ -26,19 +27,28 @@
                      <children>
                         <AnchorPane layoutX="83.0" layoutY="39.0">
                            <children>
-                              <Label text="License Plate" />
+                              <Label layoutX="-14.0" layoutY="-2.0" text="License Plate">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
                               <TextField fx:id="licensePlateInput" layoutX="99.0" layoutY="-5.0" prefHeight="26.0" prefWidth="160.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="92.0" layoutY="84.0">
                            <children>
-                              <Label layoutY="5.0" text="Date Obtained" />
+                              <Label layoutX="-34.0" layoutY="3.0" text="Date Obtained">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
                               <DatePicker fx:id="dateInput" layoutX="90.0" prefHeight="26.0" prefWidth="232.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="102.0" layoutY="141.0">
                            <children>
-                              <Label text="Make" />
+                              <Label text="Make">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
                               <RadioButton fx:id="fordButton" layoutX="57.0" mnemonicParsing="false" text="FORD" />
                               <RadioButton fx:id="toyotaButton" layoutX="127.0" mnemonicParsing="false" text="TOYOTA" />
                               <RadioButton fx:id="chevyButton" layoutX="211.0" mnemonicParsing="false" text="CHEVY" />
@@ -47,21 +57,33 @@
                         </AnchorPane>
                         <AnchorPane layoutX="106.0" layoutY="183.0">
                            <children>
-                              <Label layoutY="5.0" text="Employee" />
+                              <Label layoutX="-16.0" layoutY="3.0" text="Employee">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
                               <ChoiceBox fx:id="employeeDropDown" layoutX="76.0" prefHeight="26.0" prefWidth="234.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="117.0" layoutY="229.0">
                            <children>
-                              <Label layoutY="5.0" text="Campus" />
+                              <Label layoutX="-14.0" layoutY="3.0" text="Campus">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
                               <ChoiceBox fx:id="campusDropDown" layoutX="65.0" prefHeight="26.0" prefWidth="234.0" />
                            </children>
                         </AnchorPane>
-                        <Button fx:id="AddBtn" layoutX="220.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet" />
-                        <Button fx:id="removeBtn" layoutX="394.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Remove from Fleet" />
+                        <Button fx:id="AddBtn" layoutX="220.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
+                        <Button fx:id="removeBtn" layoutX="394.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Remove from Fleet">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
                         <AnchorPane layoutY="332.0" prefHeight="242.0" prefWidth="560.0">
                            <children>
-                              <TextArea fx:id="outputTextArea" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." />
+                              <TextArea fx:id="outputTextAreaManagement" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
@@ -79,7 +101,31 @@
             </Tab>
             <Tab text="Vehicle Reporting">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="printCompletedTripsDropDown" layoutX="151.0" layoutY="231.0" prefHeight="26.0" prefWidth="260.0" />
+                        <ChoiceBox fx:id="printReservationsDropDown" layoutX="151.0" layoutY="83.0" prefHeight="26.0" prefWidth="258.0" />
+                        <Button fx:id="PrintTheFleetButton" layoutX="151.0" layoutY="157.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="258.0" text="Print the Fleet">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <AnchorPane layoutY="334.0" prefHeight="140.0" prefWidth="560.0">
+                           <children>
+                              <TextArea fx:id="outputTextAreaReport" layoutY="-3.0" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." />
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="233.0" layoutY="87.0" text="Print Reservations">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="222.0" layoutY="235.0" text="Print Completed Trips">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>

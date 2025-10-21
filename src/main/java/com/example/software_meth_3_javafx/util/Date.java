@@ -1,4 +1,5 @@
 package com.example.software_meth_3_javafx.util;
+import java.util.Calendar;
 import java.util.StringTokenizer;
 /**
  * A Date class that represents a calendar date in mm/dd/yyyy format.
@@ -203,6 +204,19 @@ public class Date implements Comparable<Date> {
      */
     public int getDay() {
         return day;
+    }
+
+    /**
+     * Return's today's date.
+     *
+     * @return today
+     */
+    public static Date getToday(){
+        Calendar calendar = Calendar.getInstance();
+        String todayString = (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH)
+                + "/" + calendar.get(Calendar.YEAR);
+        return new Date(todayString);
+
     }
 }
 

@@ -17,14 +17,16 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ChoiceBox<Employee> employeeDropDown;
     @FXML private ChoiceBox<Campus> campusDropDown;
+    @FXML private TextField mileageTextField;
     @FXML private Button AddBtn;
+    @FXML private TextArea outputTextAreaManagement;
     @FXML private ChoiceBox<String> printReservationsDropDown;
     @FXML private ChoiceBox<String> printCompletedTripsDropDown;
-    private ToggleGroup vehicleManagementGroup;
+    private ToggleGroup makeGroup;
 
     public void initialize(){
         //For Vehicle Management
-        setToggleGroupVehicleManagement();
+        initializeToggleGroupVehicleManagement();
         initializeEmployeeDropDown();
         initializeCampusDropDown();
 
@@ -36,6 +38,58 @@ public class Controller {
         initializePrintReservationsDropDown();
         initializePrintCompletedTrips();
     }
+
+    //general methods to check elements if empty
+    @FXML
+    private boolean checkIfEmptyTextField(TextField input, String errorMessage){
+        if (input.getText() == null || input.getText().trim().isEmpty()) {
+            if (outputTextAreaManagement.getText().trim().isEmpty()) {
+                outputTextAreaManagement.setText("Missing input: ");
+            }
+            outputTextAreaManagement.appendText(errorMessage);
+            return true;
+        }
+        return false;
+    }
+
+    @FXML
+    private boolean checkIfEmptyDatePicker(DatePicker date){
+        if (date.getValue() == null) {
+            if (outputTextAreaManagement.getText().trim().isEmpty()) {
+                outputTextAreaManagement.setText("Missing input: ");
+            }
+            outputTextAreaManagement.appendText("\nPlease pick a date. ");
+            return true;
+        }
+        return false;
+    }
+
+    @FXML
+    private boolean checkIfRadioBtnSelected(){
+        if (!fordButton.isSelected() && !toyotaButton.isSelected() && !hondaButton.isSelected()
+                && !chevyButton.isSelected()) {
+            if (outputTextAreaManagement.getText().trim().isEmpty()) {
+                outputTextAreaManagement.setText("Missing input: ");
+            }
+            outputTextAreaManagement.appendText("\nPlease select a car brand. ");
+            return true;
+        }
+        return false;
+    }
+
+    @FXML
+    private <E> boolean checkIfDropDownSelected(ChoiceBox<E> choice, String errorMessage){
+        if (choice.getValue() == null) {
+            if (outputTextAreaManagement.getText().trim().isEmpty()) {
+                outputTextAreaManagement.setText("Missing input: ");
+            }
+            outputTextAreaManagement.appendText(errorMessage);
+            return true;
+        }
+        return false;
+    }
+
+
 
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
@@ -60,13 +114,161 @@ public class Controller {
     }
 
     @FXML
-    private void setToggleGroupVehicleManagement(){
-        vehicleManagementGroup = new ToggleGroup();
-        fordButton.setToggleGroup(vehicleManagementGroup);
-        toyotaButton.setToggleGroup(vehicleManagementGroup);
-        hondaButton.setToggleGroup(vehicleManagementGroup);
-        chevyButton.setToggleGroup(vehicleManagementGroup);
+    private void initializeToggleGroupVehicleManagement(){
+        makeGroup = new ToggleGroup();
+        fordButton.setToggleGroup(makeGroup);
+        toyotaButton.setToggleGroup(makeGroup);
+        hondaButton.setToggleGroup(makeGroup);
+        chevyButton.setToggleGroup(makeGroup);
     }
+
+    @FXML
+    private boolean checkFieldsEmpty(){
+        return checkIfEmptyTextField(licensePlateInput, "\nPlease enter a license plate. ") ||
+                checkIfEmptyDatePicker(dateInput) ||
+                checkIfRadioBtnSelected() ||
+                checkIfDropDownSelected(employeeDropDown, "\nPlease select an employee. ") ||
+                checkIfDropDownSelected(campusDropDown, "\nPlease select a campus. ") ||
+                checkIfEmptyTextField(mileageTextField, "\nPlease enter a mileage. ");
+    }
+
+    @FXML
+    private void handleAddBtnClick(){
+        outputTextAreaManagement.clear();
+        //means something is empty so dont go on to check other stuff
+        if (checkFieldsEmpty()) {
+            return;
+        }
+        Date today = Date.getToday();
+        RadioButton selected = (RadioButton) makeGroup.getSelectedToggle();
+        Make make = Make.parseMake(selected.getText());
+//        Campus campus = Campus.parseCampus(parts[5]);
+
+    }
+//
+//    /**
+//     * Checks for valid date for adding to fleet.
+//     *
+//     * @param parts commandline tokens
+//     * @param today today's date
+//     * @return true if all checks pass; otherwise false with an error message
+//     */
+//    private boolean addCheckDate(String[] parts, Date today){
+//        Date isValidDate = new Date(parts[2]);
+//        if(!isValidDate.isValid()){
+//            System.out.println(parts[2] + " - invalid calendar date.");
+//            return false;
+//        }
+//        else if(isValidDate.compareTo(today) >= 0){
+//            System.out.println(parts[2] + " - is today or a future date.");
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * Checks for valid make for adding to fleet.
+//     *
+//     * @param parts commandline tokens
+//     * @param make vehicle's make
+//     * @return true if all checks pass; otherwise false with an error message
+//     */
+//    private boolean addCheckMake(String[] parts, Make make){
+//        if(make == null){
+//            System.out.println(parts[3] + " - invalid make.");
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * Checks for valid mileage for adding to fleet.
+//     *
+//     * @param parts commandline tokens
+//     * @return true if all checks pass; otherwise false with an error message
+//     */
+//    private boolean addCheckMileage(String[] parts){
+//        int odo;
+//        try {
+//            odo = Integer.parseInt(parts[4]);
+//        } catch (NumberFormatException e) {
+//            System.out.println("For input string: \"" + parts[4] + "\" - not a valid mileage.");
+//            return false;
+//        }
+//        if (!isValidOdometer(odo)) {
+//            System.out.println(parts[4] + " - invalid mileage.");
+//            return false;
+//        }
+//
+//        return true;
+//
+//    }
+//
+//    /**
+//     * Checks for valid tokens for adding to fleet.
+//     *
+//     * @param parts commandline tokens
+//     * @return true if all checks pass; otherwise false with an error message
+//     */
+//    private boolean addCheckTokens(String[] parts){
+//        if(parts[1].length() != 6){
+//            System.out.println(parts[1] + " - license plate number must be exactly 6 characters.");
+//            return false;
+//        }
+//        for (int i = 0; i < parts[1].length(); i++) {
+//            if (i < 5) {
+//                if (!Character.isDigit(parts[1].charAt(i))) {
+//                    System.out.println(parts[1] + " - first 5 characters must be numbers.");
+//                    return false;
+//                }
+//                continue;
+//            }
+//            char vehicleCheck = parts[1].charAt(5);
+//            if (!(vehicleCheck == 'D' || vehicleCheck == 'S' || vehicleCheck == 'X')) {
+//                System.out.println(parts[1] + " - last character is not a valid vehicle type.");
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * Checks for valid campus for adding to fleet.
+//     *
+//     * @param parts commandline tokens
+//     * @param campus campus
+//     * @return true if all checks pass; otherwise false with an error message
+//     */
+//    private boolean addCheckCampus(String[] parts, Campus campus){
+//        if(campus == null){
+//            System.out.println(parts[5] + " - invalid location.");
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * Adds a vehicle to the fleet.
+//     *
+//     * @param parts tokenized input (must be length 5)
+//     */
+//    private void addToFleet(String[] parts){
+//        if(!checkCommandParse(parts, 6, "A")){
+//            return;
+//        }
+//        Date today = getToday();
+//        Make make = Make.parseMake(parts[3]);
+//        Campus campus = Campus.parseCampus(parts[5]);
+//        if(!addCheckDate(parts, today) || !addCheckMake(parts, make) || !addCheckMileage(parts)
+//                || !addCheckTokens(parts) || !addCheckCampus(parts, campus)){
+//            return;
+//        }
+//        Date isValidDate = new Date(parts[2]);
+//        int odo = Integer.parseInt(parts[4]);
+//        Vehicle vehicle = createVehicle(parts[1], isValidDate, make, odo, campus);
+//        fleet.add(vehicle);
+//        System.out.println(vehicle.toString() + " has been added to the fleet.");
+//    }
 
 
 

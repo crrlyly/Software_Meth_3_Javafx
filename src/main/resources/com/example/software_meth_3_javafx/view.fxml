@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.software_meth_3_javafx.Controller">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.software_meth_3_javafx.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -108,7 +95,7 @@
                               </TextField>
                               <HBox alignment="CENTER" prefHeight="57.0" prefWidth="398.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                                  <children>
-                                    <Button fx:id="AddBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
+                                    <Button fx:id="AddBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleAddBtnClick" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
@@ -128,7 +115,7 @@
                               </HBox>
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaManagement" prefHeight="200.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement" prefHeight="200.0" prefWidth="560.0" promptText="Output text..." wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -175,7 +162,7 @@
                               </Label>
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaReport" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaReport" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
                </content>
             </Tab>

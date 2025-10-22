@@ -21,7 +21,8 @@ public class Controller {
     @FXML private ChoiceBox<Campus> campusDropDown;
     @FXML private TextField mileageTextField;
     @FXML private Button clearBtn;
-    @FXML private Button AddBtn;
+    @FXML private Button addBtn;
+    @FXML private Button removeBtn;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private GridPane addGrid;
 
@@ -41,6 +42,7 @@ public class Controller {
         tripList = new TripList();
 
         //For Vehicle Management
+        removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
         initializeToggleGroupVehicleManagement();
         initializeCampusDropDown();
         dateInput.setEditable(false);
@@ -238,6 +240,32 @@ public class Controller {
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
         //clearInputs();
     }
+
+//    private boolean removeChecks(Vehicle vehicle, Booking booking){
+//        if(!fleet.contains(vehicle)){
+//            System.out.println(vehicle.getPlate() + " is not in the fleet.");
+//            return false;
+//        }
+//        if(reservation.findInstanceOfVehicleOnlyPlate(booking)){
+//            System.out.println(vehicle.getPlate() + " - has existing bookings; cannot be removed.");
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private void removeFromFleet(String[] parts){
+//        if(!checkCommandParse(parts,2,"D")){
+//            return;
+//        }
+//        Vehicle vehicle = createVehicle(parts[1], null, null, null, null);
+//        Booking booking = new Booking(vehicle);
+//        if(!removeChecks(vehicle, booking)){
+//            return;
+//        }
+//        Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
+//        System.out.println(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
+//        fleet.remove(vehicle);
+//    }
 
 
 

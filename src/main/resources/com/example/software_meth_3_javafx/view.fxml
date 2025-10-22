@@ -134,12 +134,76 @@
           </Tab>
           <Tab text="Vehicle Reservation">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutY="1.0" prefHeight="346.0" prefWidth="560.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="113.0" text="Beggining Date" />
+                              <Label text="Ending Date" GridPane.rowIndex="1" />
+                              <Label prefHeight="18.0" prefWidth="74.0" text="Vehicle" GridPane.rowIndex="2" />
+                              <Label prefHeight="18.0" prefWidth="106.0" text="Employee" GridPane.rowIndex="3" />
+                              <Label prefHeight="18.0" prefWidth="121.0" text="Campus" GridPane.rowIndex="4" />
+                              <DatePicker GridPane.columnIndex="1" />
+                              <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <children>
+                                    <ChoiceBox prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" text="Load From File" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Book It" />
+                                    <Button mnemonicParsing="false" text="Cancel It" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                        <TextArea prefHeight="187.0" prefWidth="560.0" promptText="output text" AnchorPane.bottomAnchor="0.0" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab text="Vehicle Return">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutY="31.0" prefHeight="342.0" prefWidth="560.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Ending Date" />
+                              <Label text="Vehicle" GridPane.rowIndex="1" />
+                              <Label text="New Milage" GridPane.rowIndex="2" />
+                              <DatePicker GridPane.columnIndex="1" />
+                              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button mnemonicParsing="false" text="Complete The Trip" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <TextArea layoutY="322.0" prefHeight="200.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" />
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab text="Vehicle Reporting">

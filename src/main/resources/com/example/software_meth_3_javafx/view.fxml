@@ -29,7 +29,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane layoutX="-5.0" layoutY="14.0" prefHeight="351.0" prefWidth="570.0">
+                        <GridPane fx:id="addGrid" layoutX="-5.0" layoutY="14.0" prefHeight="351.0" prefWidth="570.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.00001220703126" minWidth="0.0" prefWidth="170.3999755859375" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.80002441406253" minWidth="10.0" prefWidth="396.80002441406253" />
@@ -38,7 +38,6 @@
                             <RowConstraints maxHeight="104.79999389648438" minHeight="10.0" prefHeight="59.5999755859375" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="192.80000534057618" minHeight="0.0" prefHeight="56.4000244140625" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="41.59998779296875" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="212.8000061035156" minHeight="4.199991607666021" prefHeight="51.79999999999998" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="47.39998474121094" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="212.8000061035156" minHeight="10.0" prefHeight="69.99997558593748" vgrow="SOMETIMES" />
@@ -77,38 +76,28 @@
                                     <RadioButton fx:id="hondaButton" alignment="BOTTOM_CENTER" layoutX="199.0" layoutY="10.0" mnemonicParsing="false" text="HONDA" />
                                  </children>
                               </AnchorPane>
-                              <Label alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="241.0" text="Employee" GridPane.rowIndex="3">
+                              <Label alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="230.0" text="Campus" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox fx:id="employeeDropDown" prefHeight="26.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <ChoiceBox fx:id="campusDropDown" prefHeight="26.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="20.0" />
                                  </GridPane.margin>
                               </ChoiceBox>
-                              <Label alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="230.0" text="Campus" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <ChoiceBox fx:id="campusDropDown" prefHeight="26.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets left="20.0" />
-                                 </GridPane.margin>
-                              </ChoiceBox>
-                              <Label text="Mileage" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                              <Label text="Mileage" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font></Label>
-                              <TextField fx:id="mileageTextField" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              <TextField fx:id="mileageTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets left="20.0" right="250.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <HBox alignment="CENTER" prefHeight="57.0" prefWidth="398.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                              <HBox alignment="CENTER" prefHeight="57.0" prefWidth="398.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                  <children>
-                                    <Button fx:id="AddBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
+                                    <Button fx:id="AddBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handleAddBtnClick" prefHeight="26.0" prefWidth="141.0" text="Add to Fleet">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
@@ -128,7 +117,7 @@
                               </HBox>
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaManagement" prefHeight="200.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement" prefHeight="200.0" prefWidth="560.0" promptText="Output text..." wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -239,7 +228,7 @@
                               </Label>
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaReport" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaReport" prefHeight="248.0" prefWidth="560.0" promptText="Output text..." wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
                </content>
             </Tab>

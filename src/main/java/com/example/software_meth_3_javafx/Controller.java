@@ -42,6 +42,7 @@ public class Controller {
         //For Vehicle Management
         initializeToggleGroupVehicleManagement();
         initializeCampusDropDown();
+        dateInput.setEditable(false);
 
         //For Vehicle Reservation
 

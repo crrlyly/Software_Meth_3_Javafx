@@ -20,6 +20,7 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ChoiceBox<Campus> campusDropDown;
     @FXML private TextField mileageTextField;
+    @FXML private Button clearBtn;
     @FXML private Button AddBtn;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private GridPane addGrid;
@@ -204,6 +205,12 @@ public class Controller {
                 textArea.clear();
             }
         }
+        if (makeGroup != null) makeGroup.selectToggle(null);
+    }
+
+    @FXML
+    private void handleClearBtnClick(){
+        clearInputs();
     }
 
     @FXML

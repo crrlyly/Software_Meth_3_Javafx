@@ -218,7 +218,7 @@ public class Controller {
         outputTextAreaManagement.clear();
         if (checkFieldsEmpty()) {
             outputTextAreaManagement.setText("Missing input. Please try again.");
-            clearInputs();
+            //clearInputs();
             return;
         }
         Date today = Date.getToday();
@@ -227,7 +227,7 @@ public class Controller {
         Campus campus = Campus.parseCampus(campusDropDown.getValue().name());
         if(!addCheckDate(dateInput.getEditor().getText(), today) || !addCheckMileage(mileageTextField.getText())
                 || !addCheckTokens(licensePlateInput.getText())){
-            clearInputs();
+            //clearInputs();
             return;
         }
 
@@ -236,7 +236,7 @@ public class Controller {
         Vehicle vehicle = createVehicle(licensePlateInput.getText(), isValidDate, make, odo, campus);
         fleet.add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
-        clearInputs();
+        //clearInputs();
     }
 
 

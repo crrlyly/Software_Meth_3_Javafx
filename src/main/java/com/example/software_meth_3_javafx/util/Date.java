@@ -218,6 +218,14 @@ public class Date implements Comparable<Date> {
         return new Date(todayString);
 
     }
+    public static Date getThreeMonthsFromToday(){
+        Calendar calendar = Calendar.getInstance(); // today
+        calendar.add(Calendar.MONTH, 3); // add 3 months
+        String threeMonthsLater = (calendar.get(Calendar.MONTH) + 1) + "/"
+                + calendar.get(Calendar.DAY_OF_MONTH) + "/"
+                + calendar.get(Calendar.YEAR);
+        return new Date(threeMonthsLater);
+    }
 }
 
 

@@ -16,6 +16,9 @@ public class Controller {
 
     @FXML private TextField licensePlateInput;
     @FXML private DatePicker dateInput;
+    @FXML private DatePicker startDateInput;
+    @FXML private DatePicker endDateInput;
+
     @FXML private RadioButton fordButton;
     @FXML private RadioButton toyotaButton;
     @FXML private RadioButton hondaButton;
@@ -27,12 +30,16 @@ public class Controller {
     @FXML private ComboBox<Employee> employeeDropDown;
     @FXML private TextField mileageTextField;
     @FXML private Button removeBtn;
+    @FXML private Button bookButton;
+    @FXML private Button cancelButton;
     @FXML private TextArea outputTextAreaManagement;
+    @FXML private TextArea outputTextAreaManagement2;
     @FXML private GridPane addGrid;
 
     @FXML private ComboBox<String> printReservationsDropDown;
     @FXML private ComboBox<String> printCompletedTripsDropDown;
     @FXML private TextArea outputTextAreaReport;
+
 
     private ToggleGroup makeGroup;
 
@@ -299,9 +306,14 @@ public class Controller {
     private void initVehicleReservation(){
         initializeEmployeeDropDown();
         initializeVehicleDropdown();
-        dateInput.setEditable(false);
+        initializeBookButton();
+        initializeCancelButton();
+        startDateInput.setEditable(false);
+        endDateInput.setEditable(false);
+
     }
 
+    @FXML
     private void initializeEmployeeDropDown(){
         employeeDropDown.getItems().addAll(Employee.values());
         employeeDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -310,7 +322,7 @@ public class Controller {
             }
         });
     }
-
+    @FXML
     private void initializeVehicleDropdown(){
         vehicleDropDown.getItems().setAll(fleet.getFleet());
         vehicleDropDown2.setItems(vehicleDropDown.getItems());
@@ -319,6 +331,56 @@ public class Controller {
                 System.out.println("Selected vehicle: " + newVal);
             }
         });
+    }
+    @FXML
+    private void initializeBookButton() {
+        bookButton.setOnAction(e -> {
+            Vehicle selectedVehicle = vehicleDropDown.getValue();
+            Employee selectedEmployee = employeeDropDown.getValue();
+            Campus selectedCampus = campusDropDown.getValue();
+
+            if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
+                    startDateInput.getValue() == null || endDateInput.getValue() == null) {
+                outputTextAreaManagement2.appendText("Please fill out all fields before booking.\n");
+                return;
+            }
+
+            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth() + "/" + startDateInput.getValue().getYear();
+            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth() + "/" + endDateInput.getValue().getYear();
+
+            Date startingDate = new Date(startingDateStr);
+            Date endingDate = new Date(endingDateStr);
+
+            Date today = Date.getToday();
+            Date threeMonthsFromToday = Date.getThreeMonthsFromToday();
+
+            if (startingDate.compareTo(today) < 0) {
+                outputTextAreaManagement2.appendText("Cannot book a vehicle in the past.\n");
+                return;
+            }
+            if (endingDate.compareTo(startingDate) < 0) {
+                outputTextAreaManagement2.appendText("Ending date cannot be before starting date.\n");
+                return;
+            }
+            if (startingDate.compareTo(threeMonthsFromToday) > 0) {
+                outputTextAreaManagement2.appendText("Cannot book more than three months in advance.\n");
+                return;
+            }
+
+            Vehicle vehicleFromFleet = fleet.getVehicle(selectedVehicle);
+            if (vehicleFromFleet == null) {
+                outputTextAreaManagement2.appendText("Selected vehicle does not exist in the fleet.\n");
+                return;
+            }
+
+            Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
+            reservation.add(booking);
+
+            outputTextAreaManagement2.appendText(booking.toString() + " has been added to the fleet.\n");
+        });
+    }
+    private void initializeCancelButton(){
+
     }
     // VEHICLE RETURN -----------------------------------------------------------------------------
     @FXML

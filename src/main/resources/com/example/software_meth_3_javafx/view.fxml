@@ -170,8 +170,8 @@
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font></Label>
-                              <DatePicker GridPane.columnIndex="1" />
-                              <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="startDateInput" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="endDateInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
                                     <ComboBox fx:id="employeeDropDown" prefWidth="150.0" />
@@ -183,11 +183,11 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Book It">
+                                    <Button fx:id="bookButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Book It">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font></Button>
-                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Cancel It">
+                                    <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Cancel It">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font></Button>
@@ -197,7 +197,7 @@
                               <ComboBox fx:id="vehicleDropDown" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <TextArea prefHeight="187.0" prefWidth="560.0" promptText="output text" AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement2" prefHeight="187.0" prefWidth="560.0" promptText="output text" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>

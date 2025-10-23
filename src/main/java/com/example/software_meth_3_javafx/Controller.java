@@ -262,6 +262,10 @@ public class Controller {
         Date isValidDate = new Date(dateInput.getEditor().getText());
         int odo = Integer.parseInt(mileageTextField.getText());
         Vehicle vehicle = createVehicle(licensePlateInput.getText(), isValidDate, make, odo, campus);
+        if (fleet.contains(vehicle)) {
+            outputTextAreaManagement.setText("Vehicle already in fleet.");
+            return;
+        }
         fleet.add(vehicle);
         vehicleDropDown.getItems().add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");

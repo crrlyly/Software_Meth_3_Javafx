@@ -65,7 +65,7 @@ public class Controller {
     private void initVehicleManagement(){
         removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
         initializeToggleGroupVehicleManagement();
-        initializeCampusDropDown(campusDropDown);
+        initializeCampusDropDown();
         dateInput.setEditable(false);
     }
 
@@ -126,9 +126,10 @@ public class Controller {
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
     @FXML
-    private void initializeCampusDropDown(ComboBox<Campus> dropdown){
-        dropdown.getItems().addAll(Campus.values());
-        dropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+    private void initializeCampusDropDown(){
+        campusDropDown.getItems().addAll(Campus.values());
+        campusDropDown2.setItems(campusDropDown.getItems());
+        campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
             }
@@ -297,8 +298,7 @@ public class Controller {
     @FXML
     private void initVehicleReservation(){
         initializeEmployeeDropDown();
-        initializeVehicleDropdown(vehicleDropDown);
-        initializeCampusDropDown(campusDropDown2);
+        initializeVehicleDropdown();
         dateInput.setEditable(false);
     }
 
@@ -311,10 +311,10 @@ public class Controller {
         });
     }
 
-    private void initializeVehicleDropdown(ComboBox<Vehicle> dropdown){
-        dropdown.getItems().setAll(fleet.getFleet());
-
-        dropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+    private void initializeVehicleDropdown(){
+        vehicleDropDown.getItems().setAll(fleet.getFleet());
+        vehicleDropDown2.setItems(vehicleDropDown.getItems());
+        vehicleDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected vehicle: " + newVal);
             }

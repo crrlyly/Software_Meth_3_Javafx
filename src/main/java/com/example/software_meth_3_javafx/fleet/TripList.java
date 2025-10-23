@@ -108,18 +108,21 @@ public class TripList extends List<Trip>{
     /**
      * Prints all the trips in the trip linked list.
      */
-    public void print() {
+    public String print() {
+        StringBuilder builder = new StringBuilder();
         if (last == null) {
-            System.out.println("No trips in the list.");
-            return;
+            builder.append("No trips in the list.");
+            return builder.toString();
         }
         Node head = last.next;
         Node curr = head;
 
         do {
-            System.out.println(curr.trip.toStringNoPickup());
+            builder.append(curr.trip.toStringNoPickup()).append("\n");
             curr = curr.next;
         } while (curr != head);
+
+        return builder.toString();
     }
 
     /**
@@ -134,20 +137,21 @@ public class TripList extends List<Trip>{
     /**
      * Prints the cost report, ordered by department.
      */
-    public void printCharges(){
+    public String printCharges(){
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
+        StringBuilder builder = new StringBuilder();
         List<Trip> ba = new List<>(), cs = new List<>(), ee = new List<>(), iti = new List<>(), math = new List<>();
         groupTripsByDepartment(ba, cs, ee, iti, math);
-        System.out.println("*List of charges ordered by department.");
+        builder.append("*List of charges ordered by department.").append("\n");
         List<Trip>[] depts = new List[]{ba, cs, ee, iti, math};
         Department[] deptEnums = Department.toArray();
         for (int i = 0; i < depts.length; i++) {
             if (depts[i].Size() == 0) continue;
-            System.out.println("--" + deptEnums[i].convertToWords() + "--");
+            builder.append("--").append(deptEnums[i].convertToWords()).append("--").append("\n");
             double deptTotal = 0;
             for (int j = 0; j < depts[i].Size(); j++) {
                 Trip t = depts[i].get(j);
-                System.out.println("\t" + t.toStringNoPickup());
+                builder.append("\t").append(t.toStringNoPickup()).append("\n");
                 int used = t.getEndMileage() - t.getBeginMileage();
                 double charge = t.getBooking().getVehicle().charge(used);
                 double surcharge = 0;
@@ -159,11 +163,13 @@ public class TripList extends List<Trip>{
                 if (surcharge ==0)
                     surcharge1 = "no";
                 deptTotal += charge + surcharge;
-                System.out.println("\t\t" + "[charge: $"+charge1+"] [surcharge: "+surcharge1 + "] [total charge: $ " + df.format(charge+surcharge) +"]");
+                builder.append("\t\t").append("[charge: $").append(charge1).append("] [surcharge: ").append(surcharge1)
+                        .append("] [total charge: $ ").append(df.format(charge+surcharge)).append("]").append("\n");
             }
-            System.out.println("\t<*>Department total: $ " + df.format(deptTotal));
+            builder.append("\t<*>Department total: $ ").append(df.format(deptTotal)).append("\n");
         }
-        System.out.println("*end of list.");
+        builder.append("*end of list.").append("\n");
+        return builder.toString();
     }
 
 

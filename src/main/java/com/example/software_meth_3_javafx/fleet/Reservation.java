@@ -21,28 +21,32 @@ public class Reservation extends List<Booking>{
     /**
      * Prints the reservation list in the order of the location then plates of the vehicle, then beginning date of the reservation.
      */
-    public void printByVehicle() {
+    public String printByVehicle() {
         Sort.sortByLocationThenPlateThenDate(this);
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < Size(); i++) {
-            System.out.println(get(i));
+            builder.append(get(i)).append("\n");
         }
+        return builder.toString();
 
     }
 
     /**
      * Prints the reservation list ordered by department then by employee (alphabetically).
      */
-    public void printByDept() {
+    public String printByDept() {
         Sort.sortByDeptThenEmployee(this);
         Department dept = get(0).getEmployee().getDept();
-        System.out.println("--" + dept.convertToWords() + "--");
+        StringBuilder builder = new StringBuilder();
+        builder.append("--").append(dept.convertToWords()).append("--\n");
         for (int i = 0; i < Size(); i++) {
             if(!dept.name().equals(get(i).getEmployee().getDept().name())){
                 dept = get(i).getEmployee().getDept();
-                System.out.println("--" + dept.convertToWords() + "--");
+                builder.append("--").append(dept.convertToWords()).append("--\n");
             }
-            System.out.println("\t" + get(i));
+            builder.append("\t").append(get(i)).append("\n");
         }
+        return builder.toString();
     }
 
     /**

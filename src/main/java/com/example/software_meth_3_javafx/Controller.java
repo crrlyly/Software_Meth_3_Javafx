@@ -35,7 +35,6 @@ public class Controller {
     @FXML private TextArea outputTextAreaManagement;
     @FXML private TextArea outputTextAreaManagement2;
     @FXML private GridPane addGrid;
-
     @FXML private ComboBox<String> printReservationsDropDown;
     @FXML private ComboBox<String> printCompletedTripsDropDown;
     @FXML private TextArea outputTextAreaReport;
@@ -382,8 +381,40 @@ public class Controller {
             outputTextAreaManagement2.appendText(booking.toString() + " has been added to the fleet.\n");
         });
     }
-    private void initializeCancelButton(){
 
+    @FXML
+    private void initializeCancelButton(){
+        cancelButton.setOnAction(e -> {
+            Vehicle selectedVehicle = vehicleDropDown.getValue();
+            Employee selectedEmployee = employeeDropDown.getValue();
+            Campus selectedCampus = campusDropDown2.getValue();
+
+            if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null) {
+                outputTextAreaManagement2.appendText("Please fill out all fields before removing.\n");
+                return;
+            }
+
+            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth() + "/" + startDateInput.getValue().getYear();
+            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth() + "/" + endDateInput.getValue().getYear();
+
+            Date startingDate = new Date(startingDateStr);
+            Date endingDate = new Date(endingDateStr);
+
+            // Create a temp booking to search for
+            Booking temp = new Booking(startingDate, endingDate, selectedEmployee, selectedVehicle, selectedCampus);
+
+            // Look it up
+            Booking found = reservation.bookingLookup(temp);
+
+            if (found == null) {
+                outputTextAreaManagement2.appendText("No matching booking found.\n");
+                return;
+            }
+
+            // Remove it
+            reservation.remove(found);
+            outputTextAreaManagement2.appendText("Booking removed: " + found.toString() + "\n");
+        });
     }
     // VEHICLE RETURN -----------------------------------------------------------------------------
     @FXML

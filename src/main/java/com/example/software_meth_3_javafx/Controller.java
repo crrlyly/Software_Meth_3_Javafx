@@ -20,14 +20,13 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ChoiceBox<Campus> campusDropDown;
     @FXML private TextField mileageTextField;
-    @FXML private Button clearBtn;
-    @FXML private Button addBtn;
     @FXML private Button removeBtn;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private GridPane addGrid;
 
     @FXML private ChoiceBox<String> printReservationsDropDown;
     @FXML private ChoiceBox<String> printCompletedTripsDropDown;
+    @FXML private TextArea outputTextAreaReport;
 
     private ToggleGroup makeGroup;
 
@@ -78,7 +77,29 @@ public class Controller {
         return choice.getValue() == null;
     }
 
-
+    @FXML
+    private void clearInputs() {
+        for (Node node : addGrid.getChildren()) {
+            if (node instanceof TextField textField) {
+                textField.clear();
+            }
+            else if (node instanceof DatePicker datePicker) {
+                if (datePicker.valueProperty().isBound()) datePicker.valueProperty().unbind();
+                datePicker.setValue(null);
+                datePicker.getEditor().clear();
+            }
+            else if (node instanceof ChoiceBox<?> choiceBox) {
+                choiceBox.setValue(null);
+            }
+            else if (node instanceof RadioButton radioButton) {
+                radioButton.setSelected(false);
+            }
+            else if (node instanceof TextArea textArea) {
+                textArea.clear();
+            }
+        }
+        if (makeGroup != null) makeGroup.selectToggle(null);
+    }
 
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
@@ -187,30 +208,6 @@ public class Controller {
     }
 
     @FXML
-    private void clearInputs() {
-        for (Node node : addGrid.getChildren()) {
-            if (node instanceof TextField textField) {
-                textField.clear();
-            }
-            else if (node instanceof DatePicker datePicker) {
-                if (datePicker.valueProperty().isBound()) datePicker.valueProperty().unbind();
-                datePicker.setValue(null);
-                datePicker.getEditor().clear();
-            }
-            else if (node instanceof ChoiceBox<?> choiceBox) {
-                choiceBox.setValue(null);
-            }
-            else if (node instanceof RadioButton radioButton) {
-                radioButton.setSelected(false);
-            }
-            else if (node instanceof TextArea textArea) {
-                textArea.clear();
-            }
-        }
-        if (makeGroup != null) makeGroup.selectToggle(null);
-    }
-
-    @FXML
     private void handleClearBtnClick(){
         clearInputs();
     }
@@ -220,7 +217,6 @@ public class Controller {
         outputTextAreaManagement.clear();
         if (checkFieldsEmpty()) {
             outputTextAreaManagement.setText("Missing input. Please try again.");
-            //clearInputs();
             return;
         }
         Date today = Date.getToday();
@@ -238,35 +234,37 @@ public class Controller {
         Vehicle vehicle = createVehicle(licensePlateInput.getText(), isValidDate, make, odo, campus);
         fleet.add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
-        //clearInputs();
     }
 
-//    private boolean removeChecks(Vehicle vehicle, Booking booking){
-//        if(!fleet.contains(vehicle)){
-//            System.out.println(vehicle.getPlate() + " is not in the fleet.");
-//            return false;
-//        }
-//        if(reservation.findInstanceOfVehicleOnlyPlate(booking)){
-//            System.out.println(vehicle.getPlate() + " - has existing bookings; cannot be removed.");
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private void removeFromFleet(String[] parts){
-//        if(!checkCommandParse(parts,2,"D")){
-//            return;
-//        }
-//        Vehicle vehicle = createVehicle(parts[1], null, null, null, null);
-//        Booking booking = new Booking(vehicle);
-//        if(!removeChecks(vehicle, booking)){
-//            return;
-//        }
-//        Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
-//        System.out.println(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
-//        fleet.remove(vehicle);
-//    }
+    @FXML
+    private boolean removeChecks(Vehicle vehicle, Booking booking){
+        if(!fleet.contains(vehicle)){
+            outputTextAreaManagement.setText(vehicle.getPlate() + " is not in the fleet.");
+            return false;
+        }
+        if(reservation.findInstanceOfVehicleOnlyPlate(booking)){
+            outputTextAreaManagement.setText(vehicle.getPlate() + " - has existing bookings; cannot be removed.");
+            return false;
+        }
+        return true;
+    }
 
+    @FXML
+    private void handleRemoveBtnClick(){
+        outputTextAreaManagement.clear();
+        if (checkIfEmptyTextField(licensePlateInput)) {
+            outputTextAreaManagement.setText("Missing license plate. Please try again.");
+            return;
+        }
+        Vehicle vehicle = createVehicle(licensePlateInput.getText(), null, null, null, null);
+        Booking booking = new Booking(vehicle);
+        if(!removeChecks(vehicle, booking)){
+            return;
+        }
+        Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
+        outputTextAreaManagement.setText(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
+        fleet.remove(vehicle);
+    }
 
 
     // VEHICLE RESERVATION -----------------------------------------------------------------------------
@@ -322,5 +320,95 @@ public class Controller {
 //                }
             }
         });
+    }
+
+    @FXML
+    private void handlePrintReservationsDropDownClick(){
+        String choice = printReservationsDropDown.getValue();
+        if (choice.equals("by department/employee (PD)")){
+            displayBookings2();
+        }
+        else if(choice.equals("by location/plate/beginning date (PR)")){
+            displayBookings1();
+        }
+    }
+
+    @FXML
+    private void handlePrintFleetBtnClick(){
+        displayVehicles();
+    }
+
+    @FXML
+    private void handlePrintCompletedTripsDropDownBtnClick(){
+        String choice = printCompletedTripsDropDown.getValue();
+        if (choice.equals("by plate/ending date (PT)")){
+            displayCompletedTrips();
+        }
+        else if(choice.equals("cost report by department (PC)")){
+            displayCostReport();
+        }
+    }
+
+    /**
+     * Prints all vehicles in the fleet ordered by location, make, then obtained date.
+     */
+    private void displayVehicles(){
+        if(fleet.Size() == 0){
+            outputTextAreaReport.setText("There is no vehicle in the fleet.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of vehicles in the fleet, ordered by location/make/date obtained.");
+        fleet.printByMake();
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    /**
+     * Prints reservations ordered by location, license plate, then beginning date.
+     */
+    private void displayBookings1(){
+        if(reservation.Size() == 0){
+            outputTextAreaReport.setText("There is no booking record.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of reservations ordered by location/license plate/beginning date.");
+        reservation.printByVehicle();
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    /**
+     * Prints reservations ordered by department and employee.
+     */
+    private void displayBookings2(){
+        if(reservation.Size() == 0){
+            outputTextAreaReport.setText("There is no booking record.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of reservations ordered by department and employee.");
+        reservation.printByDept();
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    /**
+     * Prints archived trips ordered by license plate and ending date.
+     */
+    private void displayCompletedTrips(){
+        if(tripList.getLast() == null){
+            outputTextAreaReport.setText("There is no completed trips.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of completed trips ordered by license plate and ending date.");
+        tripList.print();
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    /**
+     * Prints the cost report out for the TripList
+     */
+    private void displayCostReport(){
+        if(tripList.getLast() == null){
+            outputTextAreaReport.setText("There is no archived trips for the cost report.");
+            return;
+        }
+        tripList.printCharges();//fix
     }
 }

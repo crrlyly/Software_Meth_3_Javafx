@@ -18,16 +18,15 @@ public class Controller {
     @FXML private RadioButton toyotaButton;
     @FXML private RadioButton hondaButton;
     @FXML private RadioButton chevyButton;
-    @FXML private ChoiceBox<Campus> campusDropDown;
+    @FXML private ComboBox<Campus> campusDropDown;
     @FXML private TextField mileageTextField;
-    @FXML private Button clearBtn;
-    @FXML private Button addBtn;
     @FXML private Button removeBtn;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private GridPane addGrid;
 
-    @FXML private ChoiceBox<String> printReservationsDropDown;
-    @FXML private ChoiceBox<String> printCompletedTripsDropDown;
+    @FXML private ComboBox<String> printReservationsDropDown;
+    @FXML private ComboBox<String> printCompletedTripsDropDown;
+    @FXML private TextArea outputTextAreaReport;
 
     private ToggleGroup makeGroup;
 
@@ -37,23 +36,39 @@ public class Controller {
 
     public void initialize(){
         //initializing the lists
-        fleet = new Fleet();
-        reservation = new Reservation();
-        tripList = new TripList();
+        initLists();
 
         //For Vehicle Management
-        removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
-        initializeToggleGroupVehicleManagement();
-        initializeCampusDropDown();
-        dateInput.setEditable(false);
+        initVehicleManagement();
 
         //For Vehicle Reservation
 
         //For Vehicle Return
 
         //For Vehicle Report
+        initVehicleReport();
+    }
+
+    private void initLists(){
+        fleet = new Fleet();
+        reservation = new Reservation();
+        tripList = new TripList();
+    }
+
+    @FXML
+    private void initVehicleManagement(){
+        removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
+        initializeToggleGroupVehicleManagement();
+        initializeCampusDropDown();
+        dateInput.setEditable(false);
+    }
+
+    @FXML
+    private void initVehicleReport(){
         initializePrintReservationsDropDown();
         initializePrintCompletedTrips();
+        handlePrintReservationsDropDownClick();
+        handlePrintCompletedTripsDropDownBtnClick();
     }
 
     //general methods to check elements if empty
@@ -74,11 +89,33 @@ public class Controller {
     }
 
     @FXML
-    private <E> boolean checkIfDropDownSelected(ChoiceBox<E> choice){
+    private <E> boolean checkIfDropDownSelected(ComboBox<E> choice){
         return choice.getValue() == null;
     }
 
-
+    @FXML
+    private void clearInputs() {
+        for (Node node : addGrid.getChildren()) {
+            if (node instanceof TextField textField) {
+                textField.clear();
+            }
+            else if (node instanceof DatePicker datePicker) {
+                if (datePicker.valueProperty().isBound()) datePicker.valueProperty().unbind();
+                datePicker.setValue(null);
+                datePicker.getEditor().clear();
+            }
+            else if (node instanceof ComboBox<?> comboBox) {
+                comboBox.setValue(null);
+            }
+            else if (node instanceof RadioButton radioButton) {
+                radioButton.setSelected(false);
+            }
+            else if (node instanceof TextArea textArea) {
+                textArea.clear();
+            }
+        }
+        if (makeGroup != null) makeGroup.selectToggle(null);
+    }
 
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
@@ -187,30 +224,6 @@ public class Controller {
     }
 
     @FXML
-    private void clearInputs() {
-        for (Node node : addGrid.getChildren()) {
-            if (node instanceof TextField textField) {
-                textField.clear();
-            }
-            else if (node instanceof DatePicker datePicker) {
-                if (datePicker.valueProperty().isBound()) datePicker.valueProperty().unbind();
-                datePicker.setValue(null);
-                datePicker.getEditor().clear();
-            }
-            else if (node instanceof ChoiceBox<?> choiceBox) {
-                choiceBox.setValue(null);
-            }
-            else if (node instanceof RadioButton radioButton) {
-                radioButton.setSelected(false);
-            }
-            else if (node instanceof TextArea textArea) {
-                textArea.clear();
-            }
-        }
-        if (makeGroup != null) makeGroup.selectToggle(null);
-    }
-
-    @FXML
     private void handleClearBtnClick(){
         clearInputs();
     }
@@ -220,7 +233,6 @@ public class Controller {
         outputTextAreaManagement.clear();
         if (checkFieldsEmpty()) {
             outputTextAreaManagement.setText("Missing input. Please try again.");
-            //clearInputs();
             return;
         }
         Date today = Date.getToday();
@@ -238,35 +250,37 @@ public class Controller {
         Vehicle vehicle = createVehicle(licensePlateInput.getText(), isValidDate, make, odo, campus);
         fleet.add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
-        //clearInputs();
     }
 
-//    private boolean removeChecks(Vehicle vehicle, Booking booking){
-//        if(!fleet.contains(vehicle)){
-//            System.out.println(vehicle.getPlate() + " is not in the fleet.");
-//            return false;
-//        }
-//        if(reservation.findInstanceOfVehicleOnlyPlate(booking)){
-//            System.out.println(vehicle.getPlate() + " - has existing bookings; cannot be removed.");
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private void removeFromFleet(String[] parts){
-//        if(!checkCommandParse(parts,2,"D")){
-//            return;
-//        }
-//        Vehicle vehicle = createVehicle(parts[1], null, null, null, null);
-//        Booking booking = new Booking(vehicle);
-//        if(!removeChecks(vehicle, booking)){
-//            return;
-//        }
-//        Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
-//        System.out.println(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
-//        fleet.remove(vehicle);
-//    }
+    @FXML
+    private boolean removeChecks(Vehicle vehicle, Booking booking){
+        if(!fleet.contains(vehicle)){
+            outputTextAreaManagement.setText(vehicle.getPlate() + " is not in the fleet.");
+            return false;
+        }
+        if(reservation.findInstanceOfVehicleOnlyPlate(booking)){
+            outputTextAreaManagement.setText(vehicle.getPlate() + " - has existing bookings; cannot be removed.");
+            return false;
+        }
+        return true;
+    }
 
+    @FXML
+    private void handleRemoveBtnClick(){
+        outputTextAreaManagement.clear();
+        if (checkIfEmptyTextField(licensePlateInput)) {
+            outputTextAreaManagement.setText("Missing license plate. Please try again.");
+            return;
+        }
+        Vehicle vehicle = createVehicle(licensePlateInput.getText(), null, null, null, null);
+        Booking booking = new Booking(vehicle);
+        if(!removeChecks(vehicle, booking)){
+            return;
+        }
+        Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
+        outputTextAreaManagement.setText(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
+        fleet.remove(vehicle);
+    }
 
 
     // VEHICLE RESERVATION -----------------------------------------------------------------------------
@@ -322,5 +336,91 @@ public class Controller {
 //                }
             }
         });
+    }
+
+    @FXML
+    private void handlePrintReservationsDropDownClick(){
+        printReservationsDropDown.setOnAction(e -> {
+            String choice = printReservationsDropDown.getValue();
+            if (choice.equals("by department/employee (PD)")){
+                displayBookings2();
+            }
+            else if(choice.equals("by location/plate/beginning date (PR)")){
+                displayBookings1();
+            }
+        });
+        printReservationsDropDown.setValue(null);
+    }
+
+    @FXML
+    private void handlePrintFleetBtnClick(){
+        displayVehicles();
+    }
+
+    @FXML
+    private void handlePrintCompletedTripsDropDownBtnClick(){
+        printCompletedTripsDropDown.setOnAction(e -> {
+            String choice = printCompletedTripsDropDown.getValue();
+            if (choice.equals("by plate/ending date (PT)")){
+                displayCompletedTrips();
+            }
+            else if(choice.equals("cost report by department (PC)")){
+                displayCostReport();
+            }
+        });
+        printCompletedTripsDropDown.setValue(null);
+    }
+
+    @FXML
+    private void displayVehicles(){
+        if(fleet.Size() == 0){
+            outputTextAreaReport.setText("There is no vehicle in the fleet.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of vehicles in the fleet, ordered by location/make/date obtained.\n");
+        outputTextAreaReport.appendText(fleet.printByMake());
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    @FXML
+    private void displayBookings1(){
+        if(reservation.Size() == 0){
+            outputTextAreaReport.setText("There is no booking record.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of reservations ordered by location/license plate/beginning date.\n");
+        outputTextAreaReport.appendText(reservation.printByVehicle());
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    @FXML
+    private void displayBookings2(){
+        if(reservation.Size() == 0){
+            outputTextAreaReport.setText("There is no booking record.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of reservations ordered by department and employee.\n");
+        outputTextAreaReport.appendText(reservation.printByDept());
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    @FXML
+    private void displayCompletedTrips(){
+        if(tripList.getLast() == null){
+            outputTextAreaReport.setText("There is no completed trips.");
+            return;
+        }
+        outputTextAreaReport.setText("*List of completed trips ordered by license plate and ending date.\n");
+        tripList.print();
+        outputTextAreaReport.appendText("*end of list.");
+    }
+
+    @FXML
+    private void displayCostReport(){
+        if(tripList.getLast() == null){
+            outputTextAreaReport.setText("There is no archived trips for the cost report.");
+            return;
+        }
+        outputTextAreaReport.setText(tripList.printCharges());
     }
 }

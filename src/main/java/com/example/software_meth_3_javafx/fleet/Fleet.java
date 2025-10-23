@@ -24,11 +24,13 @@ public class Fleet extends List<Vehicle>{
      * Prints all vehicles in the fleet in order by location, make, then obtained date.
      * Sorting is done using selection sort.
      */
-    public void printByMake() {
+    public String printByMake() {
         Sort.sortByLocationMakeAndDate(this);
+        StringBuilder builder = new StringBuilder();
         for (Vehicle v : this) {
-            System.out.println(v);
+            builder.append(this).append("\n");
         }
+        return builder.toString();
     }
 
     /**

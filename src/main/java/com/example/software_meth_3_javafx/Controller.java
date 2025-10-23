@@ -21,6 +21,10 @@ public class Controller {
     @FXML private RadioButton hondaButton;
     @FXML private RadioButton chevyButton;
     @FXML private ComboBox<Campus> campusDropDown;
+    @FXML private ComboBox<Campus> campusDropDown2;
+    @FXML private ComboBox<Vehicle> vehicleDropDown;
+    @FXML private ComboBox<Vehicle> vehicleDropDown2;
+    @FXML private ComboBox<Employee> employeeDropDown;
     @FXML private TextField mileageTextField;
     @FXML private Button removeBtn;
     @FXML private TextArea outputTextAreaManagement;
@@ -44,9 +48,9 @@ public class Controller {
         initVehicleManagement();
 
         //For Vehicle Reservation
-
+        initVehicleReservation();
         //For Vehicle Return
-
+        initVehicleReturn();
         //For Vehicle Report
         initVehicleReport();
     }
@@ -61,7 +65,7 @@ public class Controller {
     private void initVehicleManagement(){
         removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
         initializeToggleGroupVehicleManagement();
-        initializeCampusDropDown();
+        initializeCampusDropDown(campusDropDown);
         dateInput.setEditable(false);
     }
 
@@ -122,9 +126,9 @@ public class Controller {
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
     @FXML
-    private void initializeCampusDropDown(){
-        campusDropDown.getItems().addAll(Campus.values());
-        campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+    private void initializeCampusDropDown(ComboBox<Campus> dropdown){
+        dropdown.getItems().addAll(Campus.values());
+        dropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
             }
@@ -251,6 +255,7 @@ public class Controller {
         int odo = Integer.parseInt(mileageTextField.getText());
         Vehicle vehicle = createVehicle(licensePlateInput.getText(), isValidDate, make, odo, campus);
         fleet.add(vehicle);
+        vehicleDropDown.getItems().add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
     }
 
@@ -282,15 +287,43 @@ public class Controller {
         Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
         outputTextAreaManagement.setText(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
         fleet.remove(vehicle);
+        vehicleDropDown.getItems().remove(vehicle);
     }
 
 
     // VEHICLE RESERVATION -----------------------------------------------------------------------------
 
     //add the importFileChooser method she has in modules to load in vehicles.txt
+    @FXML
+    private void initVehicleReservation(){
+        initializeEmployeeDropDown();
+        initializeVehicleDropdown(vehicleDropDown);
+        initializeCampusDropDown(campusDropDown2);
+        dateInput.setEditable(false);
+    }
 
+    private void initializeEmployeeDropDown(){
+        employeeDropDown.getItems().addAll(Employee.values());
+        employeeDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                System.out.println("Selected: " + newVal);
+            }
+        });
+    }
+
+    private void initializeVehicleDropdown(ComboBox<Vehicle> dropdown){
+        dropdown.getItems().setAll(fleet.getFleet());
+
+        dropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                System.out.println("Selected vehicle: " + newVal);
+            }
+        });
+    }
     // VEHICLE RETURN -----------------------------------------------------------------------------
-
+    @FXML
+    private void initVehicleReturn(){
+    }
     // VEHICLE REPORT -----------------------------------------------------------------------------
     @FXML
     private void initializePrintReservationsDropDown(){

@@ -255,7 +255,6 @@ public class Controller {
         Campus campus = Campus.parseCampus(campusDropDown.getValue().name());
         if(!addCheckDate(dateInput.getEditor().getText(), today) || !addCheckMileage(mileageTextField.getText())
                 || !addCheckTokens(licensePlateInput.getText())){
-            //clearInputs();
             return;
         }
 

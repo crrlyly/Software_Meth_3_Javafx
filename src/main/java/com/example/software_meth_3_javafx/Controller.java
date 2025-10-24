@@ -340,86 +340,73 @@ public class Controller {
             Vehicle selectedVehicle = vehicleDropDown.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown.getValue();
-
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
                     startDateInput.getValue() == null || endDateInput.getValue() == null) {
-                outputTextAreaManagement2.appendText("Please fill out all fields before booking.\n");
+                outputTextAreaManagement2.setText("Please fill out all fields before booking.\n");
                 return;
             }
-
-            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth() + "/" + startDateInput.getValue().getYear();
-            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth() + "/" + endDateInput.getValue().getYear();
-
+            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth()
+                    + "/" + startDateInput.getValue().getYear();
+            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth()
+                    + "/" + endDateInput.getValue().getYear();
             Date startingDate = new Date(startingDateStr);
             Date endingDate = new Date(endingDateStr);
-
             Date today = Date.getToday();
             Date threeMonthsFromToday = Date.getThreeMonthsFromToday();
-
             if (startingDate.compareTo(today) < 0) {
-                outputTextAreaManagement2.appendText("Cannot book a vehicle in the past.\n");
+                outputTextAreaManagement2.setText("Cannot book a vehicle in the past.\n");
                 return;
             }
             if (endingDate.compareTo(startingDate) < 0) {
-                outputTextAreaManagement2.appendText("Ending date cannot be before starting date.\n");
+                outputTextAreaManagement2.setText("Ending date cannot be before starting date.\n");
                 return;
             }
             if (startingDate.compareTo(threeMonthsFromToday) > 0) {
-                outputTextAreaManagement2.appendText("Cannot book more than three months in advance.\n");
+                outputTextAreaManagement2.setText("Cannot book more than three months in advance.\n");
                 return;
             }
-
             Vehicle vehicleFromFleet = fleet.getVehicle(selectedVehicle);
             if (vehicleFromFleet == null) {
-                outputTextAreaManagement2.appendText("Selected vehicle does not exist in the fleet.\n");
+                outputTextAreaManagement2.setText("Selected vehicle does not exist in the fleet.\n");
                 return;
             }
-
             Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
-
-            outputTextAreaManagement2.appendText(booking.toString() + " has been added to the fleet.\n");
+            outputTextAreaManagement2.setText(booking.toString() + " has been added to the fleet.\n");
         });
     }
-
     @FXML
     private void initializeCancelButton(){
         cancelButton.setOnAction(e -> {
             Vehicle selectedVehicle = vehicleDropDown.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
-
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null) {
                 outputTextAreaManagement2.appendText("Please fill out all fields before removing.\n");
                 return;
             }
-
-            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth() + "/" + startDateInput.getValue().getYear();
-            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth() + "/" + endDateInput.getValue().getYear();
-
+            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth()
+                    + "/" + startDateInput.getValue().getYear();
+            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth() + "/"
+                    + endDateInput.getValue().getYear();
             Date startingDate = new Date(startingDateStr);
             Date endingDate = new Date(endingDateStr);
-
-            // Create a temp booking to search for
             Booking temp = new Booking(startingDate, endingDate, selectedEmployee, selectedVehicle, selectedCampus);
-
-            // Look it up
             Booking found = reservation.bookingLookup(temp);
-
             if (found == null) {
-                outputTextAreaManagement2.appendText("No matching booking found.\n");
+                outputTextAreaManagement2.setText("No matching booking found.\n");
                 return;
             }
-
-            // Remove it
             reservation.remove(found);
-            outputTextAreaManagement2.appendText("Booking removed: " + found.toString() + "\n");
+            outputTextAreaManagement2.setText("Booking removed: " + found.toString() + "\n");
         });
     }
+
     // VEHICLE RETURN -----------------------------------------------------------------------------
     @FXML
     private void initVehicleReturn(){
     }
+
     // VEHICLE REPORT -----------------------------------------------------------------------------
     @FXML
     private void initializePrintReservationsDropDown(){

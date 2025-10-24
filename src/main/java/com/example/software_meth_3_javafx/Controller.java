@@ -8,6 +8,9 @@ import com.example.software_meth_3_javafx.fleet.*;
 import com.example.software_meth_3_javafx.util.*;
 import javafx.scene.layout.GridPane;
 import java.io.File;
+import java.util.Scanner;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 //test branching
 //SHOW UP
 
@@ -31,6 +34,7 @@ public class Controller {
     @FXML private Button removeBtn;
     @FXML private Button bookButton;
     @FXML private Button cancelButton;
+    @FXML private Button fileLoadButton;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private TextArea outputTextAreaManagement2;
     @FXML private GridPane addGrid;
@@ -309,6 +313,7 @@ public class Controller {
         initializeVehicleDropdown();
         initializeBookButton();
         initializeCancelButton();
+        initializeFileLoadButton();
         startDateInput.setEditable(false);
         endDateInput.setEditable(false);
 
@@ -400,7 +405,52 @@ public class Controller {
             outputTextAreaManagement2.setText("Booking removed: " + found.toString() + "\n");
         });
     }
+    @FXML
+    private void initializeFileLoadButton() {
+        fileLoadButton.setOnAction(e ->{
+                FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Source File for Import");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
 
+        Stage stage = new Stage();
+        File sourceFile = chooser.showOpenDialog(stage);
+        if (sourceFile == null) {
+            outputTextAreaManagement2.appendText("No file selected.\n");
+            return;
+        }
+
+        try (Scanner scanner = new Scanner(sourceFile)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.isEmpty()) continue;
+
+                String[] parts = line.split("\\s+");
+                if (parts.length < 5) {
+                    outputTextAreaManagement2.appendText("Invalid line format: " + line + "\n");
+                    continue;
+                }
+
+                String plate = parts[0];
+                Date date = new Date(parts[1]);
+                Make make = Make.valueOf(parts[2].toUpperCase());
+                int mileage = Integer.parseInt(parts[3]);
+                Campus campus = Campus.valueOf(parts[4]);
+
+                Vehicle vehicle = createVehicle(plate, date, make, mileage, campus);
+                if (vehicle != null) {
+                    fleet.add(vehicle);
+                }
+            }
+
+            outputTextAreaManagement2.appendText("Vehicles successfully loaded into the fleet.\n");
+        } catch (Exception T) {
+            outputTextAreaManagement2.appendText("Error loading file: " + T.getMessage() + "\n");
+        }
+        });
+    }
     // VEHICLE RETURN -----------------------------------------------------------------------------
     @FXML
     private void initVehicleReturn(){

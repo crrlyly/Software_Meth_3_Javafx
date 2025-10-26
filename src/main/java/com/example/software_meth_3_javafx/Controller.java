@@ -11,9 +11,12 @@ import java.io.File;
 import java.util.Scanner;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-//test branching
-//SHOW UP
 
+/**
+ * The class implements the api calls for our Vehicle Management System.
+ *
+ * @author Carly Chick and Alec Cotler
+ */
 public class Controller {
 
     @FXML private TextField licensePlateInput;
@@ -48,11 +51,13 @@ public class Controller {
 
 
     private ToggleGroup makeGroup;
-
     private Fleet fleet;
     private Reservation reservation;
     private TripList tripList;
 
+    /**
+     * Main method that initializes elements when UI first starts up.
+     */
     public void initialize(){
         //initializing the lists
         initLists();
@@ -68,12 +73,18 @@ public class Controller {
         initVehicleReport();
     }
 
+    /**
+     * Method that initializes the lists that are used.
+     */
     private void initLists(){
         fleet = new Fleet();
         reservation = new Reservation();
         tripList = new TripList();
     }
 
+    /**
+     * Method that initializes elements in the Vehicle Management tab.
+     */
     @FXML
     private void initVehicleManagement(){
         removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
@@ -82,6 +93,9 @@ public class Controller {
         dateInput.setEditable(false);
     }
 
+    /**
+     * Method that initializes elements in the Vehicle Report tab.
+     */
     @FXML
     private void initVehicleReport(){
         initializePrintReservationsDropDown();
@@ -90,28 +104,54 @@ public class Controller {
         handlePrintCompletedTripsDropDownBtnClick();
     }
 
-    //general methods to check elements if empty
+    /**
+     * Method that checks if a text field is empty.
+     *
+     * @param input the text field
+     * @return true if empty; otherwise false
+     */
     @FXML
     private boolean checkIfEmptyTextField(TextField input){
         return input.getText() == null || input.getText().trim().isEmpty();
     }
 
+    /**
+     * Method that checks if a date picker is empty.
+     *
+     * @param date user input date
+     * @return true if empty; otherwise false
+     */
     @FXML
     private boolean checkIfEmptyDatePicker(DatePicker date){
         return date.getEditor().getText().isBlank();
     }
 
+    /**
+     * Method that checks if a radio button is selected in a toggle group.
+     *
+     * @return true if a button was selected; otherwise false
+     */
     @FXML
     private boolean checkIfRadioBtnSelected(){
         return !fordButton.isSelected() && !toyotaButton.isSelected() && !hondaButton.isSelected()
                 && !chevyButton.isSelected();
     }
 
+    /**
+     * Method that checks if anything in the dropdown was selected.
+     *
+     * @param choice the dropdown box
+     * @return true if nothing; otherwise false
+     * @param <E> combobox input type
+     */
     @FXML
     private <E> boolean checkIfDropDownSelected(ComboBox<E> choice){
         return choice.getValue() == null;
     }
 
+    /**
+     * Method that clears all inputs on a tab.
+     */
     @FXML
     private void clearInputs() {
         for (Node node : addGrid.getChildren()) {

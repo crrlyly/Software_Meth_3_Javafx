@@ -560,17 +560,22 @@ public class Controller {
             String choice = printReservationsDropDown.getValue();
             if (choice.equals("by department/employee (PD)")){
                 displayBookings2();
+                printCompletedTripsDropDown.getSelectionModel().clearSelection();
             }
             else if(choice.equals("by location/plate/beginning date (PR)")){
                 displayBookings1();
+                printCompletedTripsDropDown.getSelectionModel().clearSelection();
             }
         });
-        printReservationsDropDown.setValue(null);
+//        printReservationsDropDown.setValue(null);
+//        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML
     private void handlePrintFleetBtnClick(){
         displayVehicles();
+        printReservationsDropDown.getSelectionModel().clearSelection();
+        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -579,12 +584,18 @@ public class Controller {
             String choice = printCompletedTripsDropDown.getValue();
             if (choice.equals("by plate/ending date (PT)")){
                 displayCompletedTrips();
+                printReservationsDropDown.getSelectionModel().clearSelection();
+
             }
             else if(choice.equals("cost report by department (PC)")){
                 displayCostReport();
+                printReservationsDropDown.getSelectionModel().clearSelection();
+
             }
+
         });
-        printCompletedTripsDropDown.setValue(null);
+//        printCompletedTripsDropDown.setValue(null);
+//        printReservationsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML

@@ -28,7 +28,7 @@ public class Fleet extends List<Vehicle>{
         Sort.sortByLocationMakeAndDate(this);
         StringBuilder builder = new StringBuilder();
         for (Vehicle v : this) {
-            builder.append(this).append("\n");
+            builder.append(v.toString()).append("\n");
         }
         return builder.toString();
     }

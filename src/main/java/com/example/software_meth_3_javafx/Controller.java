@@ -346,7 +346,7 @@ public class Controller {
         bookButton.setOnAction(e -> {
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
-            Campus selectedCampus = campusDropDown.getValue();
+            Campus selectedCampus = campusDropDown2.getValue();
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
                     startDateInput.getValue() == null || endDateInput.getValue() == null) {
                 outputTextAreaManagement2.setText("Please fill out all fields before booking.\n");
@@ -379,7 +379,7 @@ public class Controller {
             }
             Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
-            outputTextAreaManagement2.setText(booking.toString() + " has been added to the fleet.\n");
+            outputTextAreaManagement2.setText(booking.toString() + " has been booked.\n");
         });
     }
     @FXML
@@ -421,7 +421,7 @@ public class Controller {
         Stage stage = new Stage();
         File sourceFile = chooser.showOpenDialog(stage);
         if (sourceFile == null) {
-            outputTextAreaManagement2.appendText("No file selected.\n");
+            outputTextAreaManagement2.setText("No file selected.\n");
             return;
         }
 
@@ -432,7 +432,7 @@ public class Controller {
 
                 String[] parts = line.split("\\s+");
                 if (parts.length < 5) {
-                    outputTextAreaManagement2.appendText("Invalid line format: " + line + "\n");
+                    outputTextAreaManagement2.setText("Invalid line format: " + line + "\n");
                     continue;
                 }
 
@@ -448,7 +448,7 @@ public class Controller {
                 }
             }
             vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
-            outputTextAreaManagement2.appendText("Vehicles successfully loaded into the fleet.\n");
+            outputTextAreaManagement2.setText("Vehicles successfully loaded into the fleet.\n");
         } catch (Exception T) {
             outputTextAreaManagement2.appendText("Error loading file: " + T.getMessage() + "\n");
         }

@@ -171,15 +171,19 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font></Label>
                               <ComboBox fx:id="vehicleDropDownFromFleet" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button fx:id="fileLoadButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="Load From File" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets right="40.0" />
+                                 </GridPane.margin>
+                              </Button>
                               <DatePicker fx:id="startDateInput" GridPane.columnIndex="1" />
                               <DatePicker fx:id="endDateInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
                                     <ComboBox fx:id="employeeDropDown" prefWidth="150.0" />
-                                    <Button fx:id="fileLoadButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="Load From File">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font></Button>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="5">

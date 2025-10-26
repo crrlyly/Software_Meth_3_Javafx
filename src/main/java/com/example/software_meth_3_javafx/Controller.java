@@ -11,9 +11,12 @@ import java.io.File;
 import java.util.Scanner;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-//test branching
-//SHOW UP
 
+/**
+ * The class implements the api calls for our Vehicle Management System.
+ *
+ * @author Carly Chick and Alec Cotler
+ */
 public class Controller {
 
     @FXML private TextField licensePlateInput;
@@ -48,11 +51,13 @@ public class Controller {
 
 
     private ToggleGroup makeGroup;
-
     private Fleet fleet;
     private Reservation reservation;
     private TripList tripList;
 
+    /**
+     * Main method that initializes elements when UI first starts up.
+     */
     public void initialize(){
         //initializing the lists
         initLists();
@@ -68,12 +73,18 @@ public class Controller {
         initVehicleReport();
     }
 
+    /**
+     * Method that initializes the lists that are used.
+     */
     private void initLists(){
         fleet = new Fleet();
         reservation = new Reservation();
         tripList = new TripList();
     }
 
+    /**
+     * Method that initializes elements in the Vehicle Management tab.
+     */
     @FXML
     private void initVehicleManagement(){
         removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
@@ -82,6 +93,9 @@ public class Controller {
         dateInput.setEditable(false);
     }
 
+    /**
+     * Method that initializes elements in the Vehicle Report tab.
+     */
     @FXML
     private void initVehicleReport(){
         initializePrintReservationsDropDown();
@@ -90,28 +104,54 @@ public class Controller {
         handlePrintCompletedTripsDropDownBtnClick();
     }
 
-    //general methods to check elements if empty
+    /**
+     * Method that checks if a text field is empty.
+     *
+     * @param input the text field
+     * @return true if empty; otherwise false
+     */
     @FXML
     private boolean checkIfEmptyTextField(TextField input){
         return input.getText() == null || input.getText().trim().isEmpty();
     }
 
+    /**
+     * Method that checks if a date picker is empty.
+     *
+     * @param date user input date
+     * @return true if empty; otherwise false
+     */
     @FXML
     private boolean checkIfEmptyDatePicker(DatePicker date){
         return date.getEditor().getText().isBlank();
     }
 
+    /**
+     * Method that checks if a radio button is selected in a toggle group.
+     *
+     * @return true if a button was selected; otherwise false
+     */
     @FXML
     private boolean checkIfRadioBtnSelected(){
         return !fordButton.isSelected() && !toyotaButton.isSelected() && !hondaButton.isSelected()
                 && !chevyButton.isSelected();
     }
 
+    /**
+     * Method that checks if anything in the dropdown was selected.
+     *
+     * @param choice the dropdown box
+     * @return true if nothing; otherwise false
+     * @param <E> combobox input type
+     */
     @FXML
     private <E> boolean checkIfDropDownSelected(ComboBox<E> choice){
         return choice.getValue() == null;
     }
 
+    /**
+     * Method that clears all inputs on a tab.
+     */
     @FXML
     private void clearInputs() {
         for (Node node : addGrid.getChildren()) {
@@ -346,7 +386,7 @@ public class Controller {
         bookButton.setOnAction(e -> {
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
-            Campus selectedCampus = campusDropDown.getValue();
+            Campus selectedCampus = campusDropDown2.getValue();
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
                     startDateInput.getValue() == null || endDateInput.getValue() == null) {
                 outputTextAreaManagement2.setText("Please fill out all fields before booking.\n");
@@ -379,7 +419,7 @@ public class Controller {
             }
             Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
-            outputTextAreaManagement2.setText(booking.toString() + " has been added to the fleet.\n");
+            outputTextAreaManagement2.setText(booking.toString() + " has been booked.\n");
         });
     }
     @FXML
@@ -421,7 +461,7 @@ public class Controller {
         Stage stage = new Stage();
         File sourceFile = chooser.showOpenDialog(stage);
         if (sourceFile == null) {
-            outputTextAreaManagement2.appendText("No file selected.\n");
+            outputTextAreaManagement2.setText("No file selected.\n");
             return;
         }
 
@@ -432,7 +472,7 @@ public class Controller {
 
                 String[] parts = line.split("\\s+");
                 if (parts.length < 5) {
-                    outputTextAreaManagement2.appendText("Invalid line format: " + line + "\n");
+                    outputTextAreaManagement2.setText("Invalid line format: " + line + "\n");
                     continue;
                 }
 
@@ -448,7 +488,7 @@ public class Controller {
                 }
             }
             vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
-            outputTextAreaManagement2.appendText("Vehicles successfully loaded into the fleet.\n");
+            outputTextAreaManagement2.setText("Vehicles successfully loaded into the fleet.\n");
         } catch (Exception T) {
             outputTextAreaManagement2.appendText("Error loading file: " + T.getMessage() + "\n");
         }
@@ -520,17 +560,22 @@ public class Controller {
             String choice = printReservationsDropDown.getValue();
             if (choice.equals("by department/employee (PD)")){
                 displayBookings2();
+                printCompletedTripsDropDown.getSelectionModel().clearSelection();
             }
             else if(choice.equals("by location/plate/beginning date (PR)")){
                 displayBookings1();
+                printCompletedTripsDropDown.getSelectionModel().clearSelection();
             }
         });
-        printReservationsDropDown.setValue(null);
+//        printReservationsDropDown.setValue(null);
+//        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML
     private void handlePrintFleetBtnClick(){
         displayVehicles();
+        printReservationsDropDown.getSelectionModel().clearSelection();
+        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -539,12 +584,18 @@ public class Controller {
             String choice = printCompletedTripsDropDown.getValue();
             if (choice.equals("by plate/ending date (PT)")){
                 displayCompletedTrips();
+                printReservationsDropDown.getSelectionModel().clearSelection();
+
             }
             else if(choice.equals("cost report by department (PC)")){
                 displayCostReport();
+                printReservationsDropDown.getSelectionModel().clearSelection();
+
             }
+
         });
-        printCompletedTripsDropDown.setValue(null);
+//        printCompletedTripsDropDown.setValue(null);
+//        printReservationsDropDown.getSelectionModel().clearSelection();
     }
 
     @FXML

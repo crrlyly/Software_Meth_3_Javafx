@@ -86,7 +86,7 @@ public abstract class Vehicle implements Comparable<Vehicle> {
     public String toString() {
         String type = this.findType(plate);
         return this.plate + "[" + this.make + ":" + type.toLowerCase() + "] " + this.obtained + " [mileage:" + this.mileage + "] " +
-                "[" + this.campus +
+                "[" + this.campus.name() +
                 ":" + this.campus.getCity() + "]";
     }
 

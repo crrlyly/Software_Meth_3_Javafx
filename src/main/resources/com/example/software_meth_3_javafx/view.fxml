@@ -194,7 +194,6 @@
                                  </children>
                               </HBox>
                               <ComboBox fx:id="campusDropDown2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <ComboBox fx:id="vehicleDropDown" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <TextArea fx:id="outputTextAreaManagement2" prefHeight="187.0" prefWidth="560.0" promptText="output text" AnchorPane.bottomAnchor="0.0" />
@@ -238,21 +237,24 @@
                                  <GridPane.margin>
                                     <Insets right="20.0" />
                                  </GridPane.margin></Label>
-                              <DatePicker GridPane.columnIndex="1" />
-                              <TextField prefHeight="26.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <DatePicker fx:id="endDateReservation" GridPane.columnIndex="1" />
+                              <TextField fx:id="mileageTextFieldReservation" prefHeight="26.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets right="200.0" />
                                  </GridPane.margin></TextField>
-                              <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Complete The Trip" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Button fx:id="completeTripButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Complete The Trip" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font></Button>
-                              <ComboBox fx:id="vehicleDropDown2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="vehicleDropDownFromReservation" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <TextArea layoutY="322.0" prefHeight="200.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
                </content>
+               <graphic>
+                  <ComboBox fx:id="vehicleDropDownFromFleet" prefWidth="150.0" />
+               </graphic>
             </Tab>
             <Tab text="Vehicle Reporting">
                <content>

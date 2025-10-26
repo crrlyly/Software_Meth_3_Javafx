@@ -20,6 +20,7 @@ public class Controller {
     @FXML private DatePicker dateInput;
     @FXML private DatePicker startDateInput;
     @FXML private DatePicker endDateInput;
+    @FXML private DatePicker endDateReservation;
 
     @FXML private RadioButton fordButton;
     @FXML private RadioButton toyotaButton;
@@ -27,14 +28,17 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ComboBox<Campus> campusDropDown;
     @FXML private ComboBox<Campus> campusDropDown2;
-    @FXML private ComboBox<Vehicle> vehicleDropDown;
-    @FXML private ComboBox<Vehicle> vehicleDropDown2;
+    @FXML private ComboBox<Vehicle> vehicleDropDownFromFleet;
+    @FXML private ComboBox<Vehicle> vehicleDropDownFromReservation;
     @FXML private ComboBox<Employee> employeeDropDown;
     @FXML private TextField mileageTextField;
+    @FXML private TextField mileageTextFieldReservation;
+
     @FXML private Button removeBtn;
     @FXML private Button bookButton;
     @FXML private Button cancelButton;
     @FXML private Button fileLoadButton;
+    @FXML private Button completeTripButton;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private TextArea outputTextAreaManagement2;
     @FXML private GridPane addGrid;
@@ -268,7 +272,7 @@ public class Controller {
             return;
         }
         fleet.add(vehicle);
-        vehicleDropDown.getItems().add(vehicle);
+        vehicleDropDownFromFleet.getItems().add(vehicle);
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
     }
 
@@ -300,7 +304,7 @@ public class Controller {
         Vehicle getOriginalVehicle = fleet.getVehicle(vehicle);
         outputTextAreaManagement.setText(getOriginalVehicle.getPlate() + " has been removed from the fleet.");
         fleet.remove(vehicle);
-        vehicleDropDown.getItems().remove(vehicle);
+        vehicleDropDownFromFleet.getItems().remove(vehicle);
     }
 
 
@@ -310,7 +314,7 @@ public class Controller {
     @FXML
     private void initVehicleReservation(){
         initializeEmployeeDropDown();
-        initializeVehicleDropdown();
+        initializeVehicleDropDownFromFleet();
         initializeBookButton();
         initializeCancelButton();
         initializeFileLoadButton();
@@ -329,10 +333,9 @@ public class Controller {
         });
     }
     @FXML
-    private void initializeVehicleDropdown(){
-        vehicleDropDown.getItems().setAll(fleet.getFleet());
-        vehicleDropDown2.setItems(vehicleDropDown.getItems());
-        vehicleDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+    private void initializeVehicleDropDownFromFleet(){
+        vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
+        vehicleDropDownFromFleet.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected vehicle: " + newVal);
             }
@@ -341,7 +344,7 @@ public class Controller {
     @FXML
     private void initializeBookButton() {
         bookButton.setOnAction(e -> {
-            Vehicle selectedVehicle = vehicleDropDown.getValue();
+            Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown.getValue();
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
@@ -382,7 +385,7 @@ public class Controller {
     @FXML
     private void initializeCancelButton(){
         cancelButton.setOnAction(e -> {
-            Vehicle selectedVehicle = vehicleDropDown.getValue();
+            Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null) {
@@ -444,7 +447,7 @@ public class Controller {
                     fleet.add(vehicle);
                 }
             }
-
+            vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
             outputTextAreaManagement2.appendText("Vehicles successfully loaded into the fleet.\n");
         } catch (Exception T) {
             outputTextAreaManagement2.appendText("Error loading file: " + T.getMessage() + "\n");
@@ -454,6 +457,12 @@ public class Controller {
     // VEHICLE RETURN -----------------------------------------------------------------------------
     @FXML
     private void initVehicleReturn(){
+        initializeVehicleDropDownFromReservation();
+        endDateReservation.setEditable(false);
+    }
+
+    private void initializeVehicleDropDownFromReservation(){
+
     }
 
     // VEHICLE REPORT -----------------------------------------------------------------------------

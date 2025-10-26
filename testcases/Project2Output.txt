@@ -1,14 +1,36 @@
+Vehicle Management System is running.
 
+a - invalid command!
+b - invalid command!
+c - invalid command!
+d - invalid command!
+r - invalid command!
+pf - invalid command!
+pr - invalid command!
+pd - invalid command!
+pt - invalid command!
+pc - invalid command!
+There is no vehicle in the fleet.
+There is no booking record.
+There is no booking record.
+There is no completed trips.
+There is no archived trips for the cost report.
 718D - license plate number must be exactly 6 characters.
 5871812D - license plate number must be exactly 6 characters.
 58718A - last character is not a valid vehicle type.
 58X18A - first 5 characters must be numbers.
-
+0/1/2000 - invalid calendar date.
+13/11/2000 - invalid calendar date.
+2/29/1999 - invalid calendar date.
+6/31/2000 - invalid calendar date.
+7/32/2000 - invalid calendar date.
+7/0/2000 - invalid calendar date.
+food - invalid make.
 0 - invalid mileage.
 -1 - invalid mileage.
 For input string: "XX" - not a valid mileage.
+living - invalid location.
 Missing data tokens for adding a vehicle.
-
 20 vehicles loaded.
 0 vehicles loaded.
 0 vehicles loaded.

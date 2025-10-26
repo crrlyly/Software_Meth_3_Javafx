@@ -59,7 +59,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dateInput" prefHeight="26.0" prefWidth="378.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <DatePicker fx:id="dateInput" prefHeight="26.0" prefWidth="286.0" promptText="Use the icon on the right side to pick a date..." style="-fx-cursor: default;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="20.0" right="40.0" />
                                  </GridPane.margin>
@@ -179,8 +179,8 @@
                                     <Insets right="40.0" />
                                  </GridPane.margin>
                               </Button>
-                              <DatePicker fx:id="startDateInput" GridPane.columnIndex="1" />
-                              <DatePicker fx:id="endDateInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="startDateInput" prefHeight="26.0" prefWidth="280.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" />
+                              <DatePicker fx:id="endDateInput" prefHeight="26.0" prefWidth="282.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
                                     <ComboBox fx:id="employeeDropDown" prefWidth="150.0" />
@@ -242,7 +242,7 @@
                                  <GridPane.margin>
                                     <Insets right="20.0" />
                                  </GridPane.margin></Label>
-                              <DatePicker fx:id="endDateReservation" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="endDateReservation" prefHeight="26.0" prefWidth="281.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" />
                               <TextField fx:id="mileageTextFieldReservation" prefHeight="26.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets right="200.0" />

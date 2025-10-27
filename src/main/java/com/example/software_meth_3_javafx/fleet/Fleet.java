@@ -44,7 +44,6 @@ public class Fleet extends List<Vehicle>{
         return (index == List.NOT_FOUND) ? null : get(index);
     }
 
-
     /**
      * Method to get the fleet
      *

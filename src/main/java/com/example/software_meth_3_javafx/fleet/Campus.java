@@ -71,6 +71,10 @@ public enum Campus {
         return len1 - len2;
     }
 
+    /**
+     * Get the string for a campus with its city
+     * @return the string of a campus with its city
+     */
     @Override
     public String toString() {
         return name() + ", " + getCity();

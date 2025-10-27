@@ -52,7 +52,6 @@ public class Controller {
     @FXML private ComboBox<String> printCompletedTripsDropDown;
     @FXML private TextArea outputTextAreaReport;
 
-
     private ToggleGroup makeGroup;
     private Fleet fleet;
     private Reservation reservation;
@@ -171,8 +170,6 @@ public class Controller {
         }
         if (makeGroup != null) makeGroup.selectToggle(null);
     }
-
-    // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
 
     /**
      * Sets up the dropdown items for campus dropdown.
@@ -405,10 +402,6 @@ public class Controller {
         vehicleDropDownFromFleet.getItems().remove(vehicle);
     }
 
-
-    // VEHICLE RESERVATION -----------------------------------------------------------------------------
-
-
     /**
      * Initializes all of the elements on the vehicle reservation tab.
       */
@@ -450,7 +443,6 @@ public class Controller {
             }
         });
     }
-
 
     /**
      * Checks if a booking is a valid booking.
@@ -530,7 +522,7 @@ public class Controller {
     }
 
     /**
-     * Initialize a button to allow for the cancelation of a booking in the reservation list.
+     * Initialize a button to allow for the cancellation of a booking in the reservation list.
      */
     @FXML
     private void initializeCancelButton(){
@@ -606,10 +598,8 @@ public class Controller {
         });
     }
 
-    // VEHICLE RETURN -----------------------------------------------------------------------------
-
     /**
-     * Initialize all of the elements in the vehicle return tab.
+     * Initialize all the elements in the vehicle return tab.
      */
     @FXML
     private void initVehicleReturn(){
@@ -641,7 +631,7 @@ public class Controller {
     }
 
     /**
-     *Checks if a trip is valid
+     * Checks if a trip is valid
      * @param booking booking to be checked if valid in the trip
      * @return true if it is valid, false if not.
      */
@@ -714,7 +704,8 @@ public class Controller {
     }
 
     /**
-     * remove a trip from reservation list and add it to the trip list.
+     * Removes a trip from reservation list and add it to the trip list.
+     *
      * @param newTrip trip to be added.
      * @param booking booking to be removed.
      * @param msg message to be put in the text field after moving the booking.
@@ -748,8 +739,6 @@ public class Controller {
         }
         return earliest;
     }
-
-    // VEHICLE REPORT -----------------------------------------------------------------------------
 
     /**
      * Sets up the dropdown options in the Print Reservations dropdown.
@@ -810,7 +799,6 @@ public class Controller {
     /**
      * Displays the trips in the trip-list. Either orders them by plate/ending date or prints out the cost report
      * based on which dropdown option was picked.
-     *
      */
     @FXML
     private void handlePrintCompletedTripsDropDownBtnClick(){

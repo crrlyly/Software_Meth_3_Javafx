@@ -180,11 +180,14 @@ public class Controller {
 
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
+
+    /**
+     * Sets up the dropdown items for campus dropdown.
+     */
     @FXML
     private void initializeCampusDropDown(){
         campusDropDown.getItems().addAll(Campus.values());
         campusDropDown2.setItems(campusDropDown.getItems());
-//        returnCampus.setItems(campusDropDown.getItems());
         campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
@@ -192,6 +195,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Creates the toggle group for the radio buttons.
+     */
     @FXML
     private void initializeToggleGroupVehicleManagement(){
         makeGroup = new ToggleGroup();
@@ -201,6 +207,11 @@ public class Controller {
         chevyButton.setToggleGroup(makeGroup);
     }
 
+    /**
+     * Checks if elements are empty.
+     *
+     * @return true if something is empty; otherwise false
+     */
     @FXML
     private boolean checkFieldsEmpty(){
         return checkIfEmptyTextField(licensePlateInput) ||
@@ -210,6 +221,13 @@ public class Controller {
                 checkIfEmptyTextField(mileageTextField);
     }
 
+    /**
+     * Checks the dates in the add vehicle functionality.
+     *
+     * @param date inputted date from datepicker
+     * @param today today's date
+     * @return true if date is valid and checked; otherwise false
+     */
     @FXML
     private boolean addCheckDate(String date, Date today){
         Date isValidDate = new Date(date);
@@ -224,6 +242,12 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Checks if mileage is valid.
+     *
+     * @param mileage the mileage
+     * @return true if mileage is valid; otherwise false;
+     */
     @FXML
     private boolean addCheckMileage(String mileage){
         int odo;
@@ -240,6 +264,12 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Catches NumberFormatException for mileage
+     *
+     * @param odo the mileage
+     * @return true if odo>0; otherwise false
+     */
     private boolean isValidOdometer(int odo) {
         try {
             return odo > 0;
@@ -248,6 +278,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Checks license plate tokens.
+     *
+     * @param licensePlate the plate
+     * @return true if license plate is valid; otherwise false
+     */
     @FXML
     private boolean addCheckTokens(String licensePlate){
         if(licensePlate.length() != 6){
@@ -271,6 +307,16 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Creates vehicle based on vehicle type.
+     *
+     * @param plate the plate
+     * @param date the obtained date
+     * @param make the make
+     * @param odo the mileage
+     * @param campus the pick-up campus
+     * @return the vehicle object; otherwise null
+     */
     @FXML
     private Vehicle createVehicle(String plate, Date date, Make make, Integer odo, Campus campus){
         switch(plate.charAt(plate.length() - 1)){
@@ -286,11 +332,17 @@ public class Controller {
         }
     }
 
+    /**
+     * When clicking the clear button. clears all inputs.
+     */
     @FXML
     private void handleClearBtnClick(){
         clearInputs();
     }
 
+    /**
+     * When clicking the add button, adds the vehicle to the fleet.
+     */
     @FXML
     private void handleAddBtnClick(){
         outputTextAreaManagement.clear();
@@ -319,6 +371,13 @@ public class Controller {
         outputTextAreaManagement.setText(vehicle.toString() + " has been added to the fleet.");
     }
 
+    /**
+     * Checks if vehicle can be removed.
+     *
+     * @param vehicle the vehicle to remove
+     * @param booking booking to see if vehicle exists in bookings
+     * @return true if can be removed; otherwise false
+     */
     @FXML
     private boolean removeChecks(Vehicle vehicle, Booking booking){
         if(!fleet.contains(vehicle)){
@@ -332,6 +391,9 @@ public class Controller {
         return true;
     }
 
+    /**
+     * When clicking the remove button, removes vehicle from fleet.
+     */
     @FXML
     private void handleRemoveBtnClick(){
         outputTextAreaManagement.clear();
@@ -648,6 +710,10 @@ public class Controller {
     }
 
     // VEHICLE REPORT -----------------------------------------------------------------------------
+
+    /**
+     * Sets up the dropdown options in the Print Reservations dropdown.
+     */
     @FXML
     private void initializePrintReservationsDropDown(){
         String[] options = {"by department/employee (PD)", "by location/plate/beginning date (PR)"};
@@ -672,6 +738,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Sets up the dropdown options in the Print Completed Trips dropdown.
+     */
     @FXML
     private void initializePrintCompletedTrips(){
         String[] options = {"by plate/ending date (PT)", "cost report by department (PC)"};
@@ -696,6 +765,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Displays the bookings in the reservation list ordered by whatever was picked in the dropdown.
+     */
     @FXML
     private void handlePrintReservationsDropDownClick(){
         printReservationsDropDown.setOnAction(e -> {
@@ -713,6 +785,9 @@ public class Controller {
 //        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Displays the vehicles in the fleet ordered by location, make, then date.
+     */
     @FXML
     private void handlePrintFleetBtnClick(){
         displayVehicles();
@@ -720,6 +795,11 @@ public class Controller {
         printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Displays the trips in the trip-list. Either orders them by plate/ending date or prints out the cost report
+     * based on which dropdown option was picked.
+     *
+     */
     @FXML
     private void handlePrintCompletedTripsDropDownBtnClick(){
         printCompletedTripsDropDown.setOnAction(e -> {
@@ -727,19 +807,17 @@ public class Controller {
             if (choice.equals("by plate/ending date (PT)")){
                 displayCompletedTrips();
                 printReservationsDropDown.getSelectionModel().clearSelection();
-
             }
             else if(choice.equals("cost report by department (PC)")){
                 displayCostReport();
                 printReservationsDropDown.getSelectionModel().clearSelection();
-
             }
-
         });
-//        printCompletedTripsDropDown.setValue(null);
-//        printReservationsDropDown.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Method that displays the vehicles in the fleet ordered by location, make, then date.
+     */
     @FXML
     private void displayVehicles(){
         if(fleet.Size() == 0){
@@ -751,6 +829,9 @@ public class Controller {
         outputTextAreaReport.appendText("*end of list.");
     }
 
+    /**
+     * Prints reservations ordered by location, license plate, then beginning date.
+     */
     @FXML
     private void displayBookings1(){
         if(reservation.Size() == 0){
@@ -762,6 +843,9 @@ public class Controller {
         outputTextAreaReport.appendText("*end of list.");
     }
 
+    /**
+     * Prints reservations ordered by department and employee.
+     */
     @FXML
     private void displayBookings2(){
         if(reservation.Size() == 0){
@@ -773,6 +857,9 @@ public class Controller {
         outputTextAreaReport.appendText("*end of list.");
     }
 
+    /**
+     * Prints archived trips ordered by license plate and ending date.
+     */
     @FXML
     private void displayCompletedTrips(){
         if(tripList.getLast() == null){
@@ -784,6 +871,9 @@ public class Controller {
         outputTextAreaReport.appendText("*end of list.");
     }
 
+    /**
+     * Prints the cost report out for the TripList
+     */
     @FXML
     private void displayCostReport(){
         if(tripList.getLast() == null){
@@ -793,8 +883,15 @@ public class Controller {
         outputTextAreaReport.setText(tripList.printCharges());
     }
 
- //FrontEnd methods needed
-
+    /**
+     * Checks if a vehicle is free between two dates.
+     * It returns false if it’s already booked during that time.
+     *
+     * @param vehicle the vehicle to check
+     * @param start starting date
+     * @param end end date
+     * @return true if available; otherwise false
+     */
     private boolean isVehicleAvailable(Vehicle vehicle, Date start, Date end) {
      for (int i = 0; i < reservation.Size(); i++) {
          Booking b = reservation.get(i);
@@ -806,6 +903,14 @@ public class Controller {
      return true;
  }
 
+    /**
+     * Finds whole day difference between two dates, ignoring time-of-day.
+     *
+     * @param startingDate the start date
+     * @param endingDate the end date
+     * @return number of days between end and start; may be negative if endingDate less than or equal to startingDate;
+     * returns 0 if either argument is null
+     */
     private int daysBetween(Date startingDate, Date endingDate) {
         if (startingDate == null || endingDate == null) return 0;
 
@@ -826,6 +931,12 @@ public class Controller {
         return (int) (diffMillis / (24L * 60 * 60 * 1000));
     }
 
+    /**
+     * Converts a Date to a Calendar set to midnight.
+     *
+     * @param date the date to convert
+     * @return a Calendar set to obj's year/month/day at 00:00:00
+     */
     private Calendar convertDateToCalendar(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, date.getYear());
@@ -834,6 +945,15 @@ public class Controller {
         return cal;
     }
 
+    /**
+     * This method checks if an employee already has a booking that overlaps with the given dates.
+     * It returns true if there’s a conflict.
+     *
+     * @param emp the employee
+     * @param start starting date
+     * @param end ending date
+     * @return true if overlaps; otherwise false
+     */
     private boolean employeeConflict(Employee emp, Date start, Date end) {
         for (int i = 0; i < reservation.Size(); i++) {
             Booking existing = reservation.get(i);

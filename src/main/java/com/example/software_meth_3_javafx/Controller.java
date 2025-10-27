@@ -23,7 +23,6 @@ public class Controller {
     @FXML private DatePicker dateInput;
     @FXML private DatePicker startDateInput;
     @FXML private DatePicker endDateInput;
-    @FXML private DatePicker endDateReservation;
 
     @FXML private RadioButton fordButton;
     @FXML private RadioButton toyotaButton;
@@ -185,6 +184,7 @@ public class Controller {
     private void initializeCampusDropDown(){
         campusDropDown.getItems().addAll(Campus.values());
         campusDropDown2.setItems(campusDropDown.getItems());
+        returnCampus.setItems(campusDropDown.getItems());
         campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
@@ -505,9 +505,7 @@ public class Controller {
     @FXML
     private void initVehicleReturn(){
         initializeVehicleDropDownFromReservation();
-        initializeReturnCampus();
         initializeCompleteTripButton();
-        endDateReservation.setEditable(false);
     }
 
     private void initializeVehicleDropDownFromReservation(){
@@ -528,55 +526,75 @@ public class Controller {
             }
         });
     }
-    private void initializeCompleteTripButton(){
-            completeTripButton.setOnAction(e -> {
-            Vehicle selectedVehicle = vehicleDropDownFromReservation.getValue();
-            String mileageStr = mileageTextFieldReservation.getText();
 
-            // Validation
-            if (selectedVehicle == null || mileageStr == null || mileageStr.isBlank()) {
-                outputTextAreaManagement3.appendText("Please select a vehicle and enter mileage.\n");
+    @FXML
+    private void initializeCompleteTripButton() {
+        completeTripButton.setOnAction(e -> {
+            Booking selectedBooking = vehicleDropDownFromReservation.getValue();
+            Campus selectedDropoff = returnCampus.getValue();
+            String mileageText = mileageTextFieldReservation.getText();
+
+            if (selectedBooking == null) {
+                outputTextAreaManagement3.appendText("Please select a booking to complete.\n");
+                return;
+            }
+            if (selectedDropoff == null) {
+                outputTextAreaManagement3.appendText("Please select a drop-off campus.\n");
+                return;
+            }
+            if (mileageText == null || mileageText.isBlank()) {
+                outputTextAreaManagement3.appendText("Please enter the new mileage.\n");
                 return;
             }
 
-            int endMileage;
+            int newMileage;
             try {
-                endMileage = Integer.parseInt(mileageStr);
+                newMileage = Integer.parseInt(mileageText.trim());
             } catch (NumberFormatException ex) {
-                outputTextAreaManagement3.appendText("Mileage must be a number.\n");
+                outputTextAreaManagement3.appendText("Mileage must be a numeric value.\n");
                 return;
             }
 
-
-                String endDateStr = (endDateReservation.getValue().getMonthValue() + "/" +
-                        endDateReservation.getValue().getDayOfMonth() + "/" +
-                        endDateReservation.getValue().getYear());
-                Date endDate = new Date(endDateStr);
-            Booking foundBooking = null;
-            for (int i = 0; i < reservation.Size(); i++) {
-                Booking b = reservation.get(i);
-                if (b.getVehicle().equals(selectedVehicle) && b.getEnd().equals(endDate)) {
-                    foundBooking = b;
-                    break;
-                }
-            }
-
-            if (foundBooking == null) {
-                outputTextAreaManagement3.appendText("No active booking found for this vehicle.\n");
+            Vehicle vehicle = selectedBooking.getVehicle();
+            if (vehicle == null) {
+                outputTextAreaManagement3.appendText("Booking does not have a vehicle.\n");
                 return;
             }
-            int beginMileage = selectedVehicle.getMileage();
-            boolean surcharge = !foundBooking.getVehicle().getCampus().equals(foundBooking.getDropoff());
 
-            Trip trip = new Trip(foundBooking, beginMileage, endMileage, surcharge);
-            tripList.add(trip);
+            int oldMileage = vehicle.getMileage(); // or getMileage(), depending on your Vehicle class
+            if (newMileage < oldMileage) {
+                outputTextAreaManagement3.appendText("New mileage cannot be less than old mileage.\n");
+                return;
+            }
 
-            selectedVehicle.setMileage(endMileage);
-            reservation.remove(foundBooking);
-            vehicleDropDownFromReservation.getItems().remove(selectedVehicle);
+            // --- Determine surcharge and update campus if needed ---
+            boolean surcharge = false;
+            if (!vehicle.getCampus().equals(selectedDropoff)) {
+                surcharge = true;
+                vehicle.setCampus(selectedDropoff);
+            }
 
-                outputTextAreaManagement3.appendText("Vehicle returned: " + selectedVehicle.getPlate() + "\n");
-                outputTextAreaManagement3.appendText("Trip recorded: " + trip.toString() + "\n\n");
+            // --- Update vehicle mileage ---
+            vehicle.setMileage(newMileage);
+
+            // --- Create and add trip ---
+            Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
+            tripList.add(newTrip);
+
+            // --- Remove the completed booking ---
+            reservation.remove(selectedBooking);
+            vehicleDropDownFromReservation.getItems().remove(selectedBooking);
+
+            // --- Output success ---
+            String msg = "Trip completed for vehicle " + vehicle.getPlate() +
+                    (surcharge ? " (surcharge applied)" : "") +
+                    ". New mileage: " + newMileage + "\n";
+            outputTextAreaManagement3.appendText(msg);
+
+            // --- Clear fields ---
+            vehicleDropDownFromReservation.getSelectionModel().clearSelection();
+            returnCampus.getSelectionModel().clearSelection();
+            mileageTextFieldReservation.clear();
         });
     }
     // VEHICLE REPORT -----------------------------------------------------------------------------

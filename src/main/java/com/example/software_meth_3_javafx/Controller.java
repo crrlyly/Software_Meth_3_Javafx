@@ -408,6 +408,10 @@ public class Controller {
 
     // VEHICLE RESERVATION -----------------------------------------------------------------------------
 
+
+    /**
+     * Initializes all of the elements on the vehicle reservation tab.
+      */
     @FXML
     private void initVehicleReservation(){
         initializeEmployeeDropDown();
@@ -421,6 +425,9 @@ public class Controller {
 
     }
 
+    /**
+     * Initializes the dropdown with all of the employee names.
+     */
     @FXML
     private void initializeEmployeeDropDown(){
         employeeDropDown.getItems().addAll(Employee.values());
@@ -431,6 +438,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Initializes a dropdown with all of the vehicles that are present in the fleet.
+     */
     @FXML
     private void initializeVehicleDropDownFromFleet(){
         vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
@@ -441,6 +451,17 @@ public class Controller {
         });
     }
 
+
+    /**
+     * Checks if a booking is a valid booking.
+     * @param vehicleBox to get the vehicle for a booking from.
+     * @param employeeBox to get the employee for a booking from.
+     * @param campusBox to get the dropoff campus for a booking from.
+     * @param startPicker to get the start date for a booking from.
+     * @param endPicker to get the end date for a booking from.
+     * @param output where to output whether the booking is a valid booking or not.
+     * @return true if the booking is a valid booking, false if not.
+     */
     @FXML
     private boolean validateBookingForm(ComboBox<Vehicle> vehicleBox, ComboBox<Employee> employeeBox,
             ComboBox<Campus> campusBox, DatePicker startPicker, DatePicker endPicker, TextArea output
@@ -484,6 +505,9 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Initialize a button to allow for a booking to be added to the reservation list.
+     */
     @FXML
     private void initializeBookButton() {
         bookButton.setOnAction(e -> {
@@ -505,6 +529,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Initialize a button to allow for the cancelation of a booking in the reservation list.
+     */
     @FXML
     private void initializeCancelButton(){
         cancelButton.setOnAction(e -> {
@@ -533,6 +560,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Initialize a button to load in vehicles from a file and add them to the fleet.
+     */
     @FXML
     private void initializeFileLoadButton() {
         fileLoadButton.setOnAction(e ->{
@@ -578,12 +608,18 @@ public class Controller {
 
     // VEHICLE RETURN -----------------------------------------------------------------------------
 
+    /**
+     * Initialize all of the elements in the vehicle return tab.
+     */
     @FXML
     private void initVehicleReturn(){
         initializeVehicleDropDownFromReservation();
         initializeCompleteTripButton();
     }
 
+    /**
+     * Initialize a dropdown of all current bookings in the reservation list.
+     */
     @FXML
     private void initializeVehicleDropDownFromReservation(){
         vehicleDropDownFromReservation.getItems().clear();
@@ -604,6 +640,11 @@ public class Controller {
         });
     }
 
+    /**
+     *Checks if a trip is valid
+     * @param booking booking to be checked if valid in the trip
+     * @return true if it is valid, false if not.
+     */
     @FXML
     private boolean checkCompleteTripEmpty(Booking booking){
         if (booking == null) {
@@ -629,6 +670,9 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Initialize the button to move a completed trip from the reservations list to the Triplist.
+     */
     @FXML
     private void initializeCompleteTripButton() {
         completeTripButton.setOnAction(e -> {
@@ -669,6 +713,12 @@ public class Controller {
         });
     }
 
+    /**
+     * remove a trip from reservation list and add it to the trip list.
+     * @param newTrip trip to be added.
+     * @param booking booking to be removed.
+     * @param msg message to be put in the text field after moving the booking.
+     */
     @FXML
     private void moveFromReservationToTripList(Trip newTrip, Booking booking, String msg){
         tripList.add(newTrip);

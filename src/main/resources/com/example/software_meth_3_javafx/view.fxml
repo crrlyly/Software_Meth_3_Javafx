@@ -215,35 +215,27 @@
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="448.0" minWidth="10.0" prefWidth="364.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="95.8000244140625" minHeight="10.0" prefHeight="95.8000244140625" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Ending Date" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                              <Label text="Vehicle" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets right="20.0" />
                                  </GridPane.margin></Label>
-                              <Label text="Vehicle" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Label text="New Milage" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets right="20.0" />
                                  </GridPane.margin></Label>
-                              <Label text="New Milage" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets right="20.0" />
-                                 </GridPane.margin></Label>
-                              <DatePicker fx:id="endDateReservation" prefHeight="26.0" prefWidth="281.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" />
-                              <TextField fx:id="mileageTextFieldReservation" prefHeight="26.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <TextField fx:id="mileageTextFieldReservation" prefHeight="26.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets right="200.0" />
                                  </GridPane.margin></TextField>
@@ -251,10 +243,12 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font></Button>
-                              <ComboBox fx:id="vehicleDropDownFromReservation" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="vehicleDropDownFromReservation" prefWidth="150.0" GridPane.columnIndex="1" />
+                              <Label text="Drop Off Campus" GridPane.rowIndex="2" />
+                              <ComboBox fx:id="returnCampus" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <TextArea layoutY="322.0" prefHeight="200.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement3" layoutY="322.0" prefHeight="200.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
                </content>
             </Tab>

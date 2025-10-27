@@ -31,8 +31,9 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ComboBox<Campus> campusDropDown;
     @FXML private ComboBox<Campus> campusDropDown2;
+    @FXML private ComboBox<Campus> returnCampus;
     @FXML private ComboBox<Vehicle> vehicleDropDownFromFleet;
-    @FXML private ComboBox<Vehicle> vehicleDropDownFromReservation;
+    @FXML private ComboBox<Booking> vehicleDropDownFromReservation;
     @FXML private ComboBox<Employee> employeeDropDown;
     @FXML private TextField mileageTextField;
     @FXML private TextField mileageTextFieldReservation;
@@ -421,9 +422,8 @@ public class Controller {
             }
             Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
-            Vehicle bookedVehicle = vehicleFromFleet;
-            if (!vehicleDropDownFromReservation.getItems().contains(bookedVehicle)) {
-                vehicleDropDownFromReservation.getItems().add(bookedVehicle);
+            if (!vehicleDropDownFromReservation.getItems().contains(booking)) {
+                vehicleDropDownFromReservation.getItems().add(booking);
             }
             outputTextAreaManagement2.setText(booking.toString() + " has been booked.\n");
         });
@@ -451,6 +451,7 @@ public class Controller {
                 return;
             }
             reservation.remove(found);
+            vehicleDropDownFromReservation.getItems().remove(found);
             outputTextAreaManagement2.setText("Booking removed: " + found.toString() + "\n");
         });
     }
@@ -504,22 +505,26 @@ public class Controller {
     @FXML
     private void initVehicleReturn(){
         initializeVehicleDropDownFromReservation();
+        initializeReturnCampus();
         initializeCompleteTripButton();
         endDateReservation.setEditable(false);
     }
 
     private void initializeVehicleDropDownFromReservation(){
         vehicleDropDownFromReservation.getItems().clear();
+
+        // Add each booking from the reservation list
         for (int i = 0; i < reservation.Size(); i++) {
-            Vehicle v = reservation.get(i).getVehicle();
-            if (!vehicleDropDownFromReservation.getItems().contains(v)) {
-                vehicleDropDownFromReservation.getItems().add(v);
+            Booking b = reservation.get(i);
+            if (!vehicleDropDownFromReservation.getItems().contains(b)) {
+                vehicleDropDownFromReservation.getItems().add(b);
             }
         }
 
+        // Listener for when a booking is selected
         vehicleDropDownFromReservation.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                System.out.println("Selected reserved vehicle: " + newVal);
+                System.out.println("Selected booking: " + newVal);
             }
         });
     }

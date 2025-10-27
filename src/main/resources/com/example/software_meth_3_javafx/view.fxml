@@ -195,7 +195,10 @@
                                     <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Cancel It">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></Button>
+                                       </font>
+                                       <tooltip>
+                                          <Tooltip fx:id="bookingToolTip" text="Only Beginning Date, Ending Date, and the Vehicle are needed to cancel a booking." />
+                                       </tooltip></Button>
                                  </children>
                               </HBox>
                               <ComboBox fx:id="campusDropDown2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />

@@ -89,7 +89,7 @@ public class Controller {
      */
     @FXML
     private void initVehicleManagement(){
-        removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(100));
+        removeBtn.getTooltip().setShowDelay(javafx.util.Duration.millis(50));
         initializeToggleGroupVehicleManagement();
         initializeCampusDropDown();
         dateInput.setEditable(false);
@@ -422,6 +422,7 @@ public class Controller {
         initializeBookButton();
         initializeCancelButton();
         initializeFileLoadButton();
+        cancelButton.getTooltip().setShowDelay(javafx.util.Duration.millis(50));
         startDateInput.setEditable(false);
         endDateInput.setEditable(false);
 
@@ -476,7 +477,7 @@ public class Controller {
             return false;
         }
         if (daysBetween(startingDate, endingDate) >= 7) {
-            output.setText(" Booking cannot exceed 7 days.\n");
+            output.setText(startingDate + " ~ " + endingDate + " - duration more than a week.\n");
             return false;
         }
         if (!isVehicleAvailable(vehicle, startingDate, endingDate)) {
@@ -682,8 +683,7 @@ public class Controller {
         tripList.add(newTrip);
         reservation.remove(booking);
         vehicleDropDownFromReservation.getItems().remove(booking);
-        String msg = "Trip completed for vehicle " + vehicle.getPlate() + (surcharge ? " (surcharge applied)" : "") +
-                ". New mileage: " + newMileage + "\n";
+        String msg = "Trip completed: " + newTrip.toString() + "\n";
         outputTextAreaManagement3.setText(msg);
         vehicleDropDownFromReservation.getSelectionModel().clearSelection();
         mileageTextFieldReservation.clear();

@@ -553,13 +553,14 @@ public class Controller {
     private void initializeCompleteTripButton() {
         completeTripButton.setOnAction(e -> {
             Booking selectedBooking = vehicleDropDownFromReservation.getValue();
-            Campus selectedDropoff = selectedBooking.getDropoff();
-            String mileageText = mileageTextFieldReservation.getText();
             if (selectedBooking == null) {
-                outputTextAreaManagement3.setText("Please select a booking to complete.\n");
+                outputTextAreaManagement3.setText("Please select a booking to complete. If no vehicles are in the booking list," +
+                        "please go book a vehicle in the Vehicle Reservation tab.\n");
                 return;
             }
-            if (mileageText == null || mileageText.isBlank()) {
+            Campus selectedDropoff = selectedBooking.getDropoff();
+            String mileageText = mileageTextFieldReservation.getText();
+            if (mileageText == null || mileageText.trim().isEmpty()) {
                 outputTextAreaManagement3.setText("Please enter the new mileage.\n");
                 return;
             }
@@ -586,6 +587,7 @@ public class Controller {
                 vehicle.setCampus(selectedDropoff);
             }
             vehicle.setMileage(newMileage);
+            initializeVehicleDropDownFromReservation();
             Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
             tripList.add(newTrip);
             reservation.remove(selectedBooking);
@@ -596,6 +598,7 @@ public class Controller {
             outputTextAreaManagement3.setText(msg);
             vehicleDropDownFromReservation.getSelectionModel().clearSelection();
             mileageTextFieldReservation.clear();
+            clearInputs();
         });
     }
     // VEHICLE REPORT -----------------------------------------------------------------------------

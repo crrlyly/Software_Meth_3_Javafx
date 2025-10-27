@@ -201,7 +201,7 @@
                               <ComboBox fx:id="campusDropDown2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaManagement2" prefHeight="187.0" prefWidth="560.0" promptText="output text" AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement2" prefHeight="187.0" prefWidth="560.0" promptText="output text" wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -248,7 +248,7 @@
                               <ComboBox fx:id="vehicleDropDownFromReservation" prefHeight="26.0" prefWidth="161.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
-                        <TextArea fx:id="outputTextAreaManagement3" layoutY="322.0" prefHeight="200.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" />
+                        <TextArea fx:id="outputTextAreaManagement3" layoutY="322.0" prefHeight="200.0" prefWidth="560.0" wrapText="true" AnchorPane.bottomAnchor="0.0" />
                      </children></AnchorPane>
                </content>
             </Tab>

@@ -412,7 +412,7 @@ public class Controller {
             output.setText(" Cannot book more than 3 months in advance.\n");
             return false;
         }
-        if (daysBetween(startingDate, endingDate) > 7) {
+        if (daysBetween(startingDate, endingDate) >= 7) {
             output.setText(" Booking cannot exceed 7 days.\n");
             return false;
         }
@@ -435,12 +435,8 @@ public class Controller {
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
-            Date start = new Date(startDateInput.getValue().getMonthValue() + "/" +
-                    startDateInput.getValue().getDayOfMonth() + "/" +
-                    startDateInput.getValue().getYear());
-            Date end = new Date(endDateInput.getValue().getMonthValue() + "/" +
-                    endDateInput.getValue().getDayOfMonth() + "/" +
-                    endDateInput.getValue().getYear());
+            Date start = new Date(startDateInput.getEditor().getText());
+            Date end = new Date(endDateInput.getEditor().getText());
             Vehicle vehicleFromFleet = fleet.getVehicle(selectedVehicle);
             Booking booking = new Booking(start, end, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);

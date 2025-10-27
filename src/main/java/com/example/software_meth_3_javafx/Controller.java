@@ -62,17 +62,10 @@ public class Controller {
      * Main method that initializes elements when UI first starts up.
      */
     public void initialize(){
-        //initializing the lists
         initLists();
-
-        //For Vehicle Management
         initVehicleManagement();
-
-        //For Vehicle Reservation
         initVehicleReservation();
-        //For Vehicle Return
         initVehicleReturn();
-        //For Vehicle Report
         initVehicleReport();
     }
 

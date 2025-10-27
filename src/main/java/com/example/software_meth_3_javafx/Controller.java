@@ -31,7 +31,6 @@ public class Controller {
     @FXML private RadioButton chevyButton;
     @FXML private ComboBox<Campus> campusDropDown;
     @FXML private ComboBox<Campus> campusDropDown2;
-    @FXML private ComboBox<Campus> returnCampus;
     @FXML private ComboBox<Vehicle> vehicleDropDownFromFleet;
     @FXML private ComboBox<Booking> vehicleDropDownFromReservation;
     @FXML private ComboBox<Employee> employeeDropDown;
@@ -185,7 +184,7 @@ public class Controller {
     private void initializeCampusDropDown(){
         campusDropDown.getItems().addAll(Campus.values());
         campusDropDown2.setItems(campusDropDown.getItems());
-        returnCampus.setItems(campusDropDown.getItems());
+//        returnCampus.setItems(campusDropDown.getItems());
         campusDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
@@ -554,14 +553,10 @@ public class Controller {
     private void initializeCompleteTripButton() {
         completeTripButton.setOnAction(e -> {
             Booking selectedBooking = vehicleDropDownFromReservation.getValue();
-            Campus selectedDropoff = returnCampus.getValue();
+            Campus selectedDropoff = selectedBooking.getDropoff();
             String mileageText = mileageTextFieldReservation.getText();
             if (selectedBooking == null) {
                 outputTextAreaManagement3.setText("Please select a booking to complete.\n");
-                return;
-            }
-            if (selectedDropoff == null) {
-                outputTextAreaManagement3.setText("Please select a drop-off campus.\n");
                 return;
             }
             if (mileageText == null || mileageText.isBlank()) {
@@ -598,9 +593,8 @@ public class Controller {
             String msg = "Trip completed for vehicle " + vehicle.getPlate() +
                     (surcharge ? " (surcharge applied)" : "") +
                     ". New mileage: " + newMileage + "\n";
-            outputTextAreaManagement3.appendText(msg);
+            outputTextAreaManagement3.setText(msg);
             vehicleDropDownFromReservation.getSelectionModel().clearSelection();
-            returnCampus.getSelectionModel().clearSelection();
             mileageTextFieldReservation.clear();
         });
     }
@@ -751,7 +745,7 @@ public class Controller {
     }
 
  //FrontEnd methods needed
- private boolean isVehicleAvailable(Vehicle vehicle, Date start, Date end) {
+    private boolean isVehicleAvailable(Vehicle vehicle, Date start, Date end) {
      for (int i = 0; i < reservation.Size(); i++) {
          Booking b = reservation.get(i);
          if (b.getVehicle().equals(vehicle)) {
@@ -781,7 +775,6 @@ public class Controller {
         long diffMillis = end.getTimeInMillis() - start.getTimeInMillis();
         return (int) (diffMillis / (24L * 60 * 60 * 1000));
     }
-
 
     private Calendar convertDateToCalendar(Date date) {
         Calendar cal = Calendar.getInstance();

@@ -555,7 +555,7 @@ public class Controller {
             Booking selectedBooking = vehicleDropDownFromReservation.getValue();
             if (selectedBooking == null) {
                 outputTextAreaManagement3.setText("Please select a booking to complete. If no vehicles are in the booking list," +
-                        "please go book a vehicle in the Vehicle Reservation tab.\n");
+                        " please go book a vehicle in the Vehicle Reservation tab.\n");
                 return;
             }
             Campus selectedDropoff = selectedBooking.getDropoff();

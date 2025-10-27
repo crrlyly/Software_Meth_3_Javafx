@@ -386,104 +386,68 @@ public class Controller {
         });
     }
 
-    private boolean validateBookingForm(
-            ComboBox<Vehicle> vehicleBox,
-            ComboBox<Employee> employeeBox,
-            ComboBox<Campus> campusBox,
-            DatePicker startPicker,
-            DatePicker endPicker,
-            TextArea output
+    private boolean validateBookingForm(ComboBox<Vehicle> vehicleBox, ComboBox<Employee> employeeBox,
+            ComboBox<Campus> campusBox, DatePicker startPicker, DatePicker endPicker, TextArea output
     ) {
         Vehicle vehicle = vehicleBox.getValue();
         Employee employee = employeeBox.getValue();
         Campus campus = campusBox.getValue();
-
-        //  Check that all required fields are filled
         if (vehicle == null || employee == null || campus == null ||
                 startPicker.getValue() == null || endPicker.getValue() == null) {
             output.setText(" Please fill out all fields before booking.\n");
             return false;
         }
-
-        //  Convert JavaFX DatePicker values
         Date startingDate = new Date(startPicker.getValue().getMonthValue() + "/" +
                 startPicker.getValue().getDayOfMonth() + "/" + startPicker.getValue().getYear());
         Date endingDate = new Date(endPicker.getValue().getMonthValue() + "/" +
                 endPicker.getValue().getDayOfMonth() + "/" + endPicker.getValue().getYear());
-
-        // Validate chronological order
         if (endingDate.compareTo(startingDate) < 0) {
             output.setText(" Ending date cannot be before starting date.\n");
             return false;
         }
-
-        //  Validate booking not in the past
-        Date today = Date.getToday();
-        if (startingDate.compareTo(today) < 0) {
+        if (startingDate.compareTo(Date.getToday()) < 0) {
             output.setText(" Cannot book a vehicle in the past.\n");
             return false;
         }
-
-        //  Validate max 3 months from today
-        Date threeMonthsFromToday = Date.getThreeMonthsFromToday();
-        if (startingDate.compareTo(threeMonthsFromToday) > 0) {
+        if (startingDate.compareTo(Date.getThreeMonthsFromToday()) > 0) {
             output.setText(" Cannot book more than 3 months in advance.\n");
             return false;
         }
-
-        //  Validate trip duration ≤ 7 days
-        int dayDifference = daysBetween(startingDate, endingDate);
-        if (dayDifference > 7) {
+        if (daysBetween(startingDate, endingDate) > 7) {
             output.setText(" Booking cannot exceed 7 days.\n");
             return false;
         }
-
-        //  Check vehicle availability
         if (!isVehicleAvailable(vehicle, startingDate, endingDate)) {
             output.setText(" Vehicle " + vehicle.getPlate() + " is not available on those dates.\n");
             return false;
         }
-
-        //  Check if employee already has a conflicting booking
         if (employeeConflict(employee, startingDate, endingDate)) {
             output.setText(" Employee " + employee + " already has a booking that overlaps these dates.\n");
             return false;
         }
-
         return true;
     }
     @FXML
     private void initializeBookButton() {
         bookButton.setOnAction(e -> {
-            boolean isValid = validateBookingForm(
-                    vehicleDropDownFromFleet,
-                    employeeDropDown,
-                    campusDropDown2,
-                    startDateInput,
-                    endDateInput,
-                    outputTextAreaManagement2
-            );
+            boolean isValid = validateBookingForm(vehicleDropDownFromFleet, employeeDropDown, campusDropDown2,
+                    startDateInput, endDateInput, outputTextAreaManagement2);
             if (!isValid) return;
-
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
-
             Date start = new Date(startDateInput.getValue().getMonthValue() + "/" +
                     startDateInput.getValue().getDayOfMonth() + "/" +
                     startDateInput.getValue().getYear());
             Date end = new Date(endDateInput.getValue().getMonthValue() + "/" +
                     endDateInput.getValue().getDayOfMonth() + "/" +
                     endDateInput.getValue().getYear());
-
             Vehicle vehicleFromFleet = fleet.getVehicle(selectedVehicle);
             Booking booking = new Booking(start, end, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
-
             if (!vehicleDropDownFromReservation.getItems().contains(booking)) {
                 vehicleDropDownFromReservation.getItems().add(booking);
             }
-
             outputTextAreaManagement2.setText("Booking confirmed: " + booking + "\n");
         });
     }
@@ -592,7 +556,6 @@ public class Controller {
             Booking selectedBooking = vehicleDropDownFromReservation.getValue();
             Campus selectedDropoff = returnCampus.getValue();
             String mileageText = mileageTextFieldReservation.getText();
-
             if (selectedBooking == null) {
                 outputTextAreaManagement3.setText("Please select a booking to complete.\n");
                 return;
@@ -605,7 +568,6 @@ public class Controller {
                 outputTextAreaManagement3.setText("Please enter the new mileage.\n");
                 return;
             }
-
             int newMileage;
             try {
                 newMileage = Integer.parseInt(mileageText.trim());
@@ -613,44 +575,30 @@ public class Controller {
                 outputTextAreaManagement3.setText("Mileage must be a numeric value.\n");
                 return;
             }
-
             Vehicle vehicle = selectedBooking.getVehicle();
             if (vehicle == null) {
                 outputTextAreaManagement3.setText("Booking does not have a vehicle.\n");
                 return;
             }
-
             int oldMileage = vehicle.getMileage(); // or getMileage(), depending on your Vehicle class
             if (newMileage < oldMileage) {
                 outputTextAreaManagement3.setText("New mileage cannot be less than old mileage.\n");
                 return;
             }
-
-            // --- Determine surcharge and update campus if needed ---
             boolean surcharge = false;
             if (!vehicle.getCampus().equals(selectedDropoff)) {
                 surcharge = true;
                 vehicle.setCampus(selectedDropoff);
             }
-
-            // --- Update vehicle mileage ---
             vehicle.setMileage(newMileage);
-
-            // --- Create and add trip ---
             Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
             tripList.add(newTrip);
-
-            // --- Remove the completed booking ---
             reservation.remove(selectedBooking);
             vehicleDropDownFromReservation.getItems().remove(selectedBooking);
-
-            // --- Output success ---
             String msg = "Trip completed for vehicle " + vehicle.getPlate() +
                     (surcharge ? " (surcharge applied)" : "") +
                     ". New mileage: " + newMileage + "\n";
             outputTextAreaManagement3.appendText(msg);
-
-            // --- Clear fields ---
             vehicleDropDownFromReservation.getSelectionModel().clearSelection();
             returnCampus.getSelectionModel().clearSelection();
             mileageTextFieldReservation.clear();
@@ -851,14 +799,13 @@ public class Controller {
                 Date existingStart = existing.getBegin();
                 Date existingEnd = existing.getEnd();
 
-                // Check for overlapping ranges
                 boolean overlap = !(end.compareTo(existingStart) < 0 || start.compareTo(existingEnd) > 0);
                 if (overlap) {
-                    return true; // conflict detected
+                    return true;
                 }
             }
         }
-        return false; // no conflicts
+        return false;
     }
 
 

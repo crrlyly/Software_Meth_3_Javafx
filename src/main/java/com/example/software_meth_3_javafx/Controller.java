@@ -578,7 +578,7 @@ public class Controller {
             if (checkCompleteTripEmpty(selectedBooking)) {
                 return;
             }
-            Campus selectedDropoff = selectedBooking.getDropoff();
+            Campus selectedDropOff = selectedBooking.getDropoff();
             String mileageText = mileageTextFieldReservation.getText();
             int newMileage;
             try {
@@ -598,9 +598,9 @@ public class Controller {
                 return;
             }
             boolean surcharge = false;
-            if (!vehicle.getCampus().equals(selectedDropoff)) {
+            if (!vehicle.getCampus().equals(selectedDropOff)) {
                 surcharge = true;
-                vehicle.setCampus(selectedDropoff);
+                vehicle.setCampus(selectedDropOff);
             }
             vehicle.setMileage(newMileage);
             initializeVehicleDropDownFromReservation();

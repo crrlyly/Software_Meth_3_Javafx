@@ -9,6 +9,7 @@ import com.example.software_meth_3_javafx.util.*;
 import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.util.Scanner;
+import java.util.Calendar;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -384,48 +385,106 @@ public class Controller {
             }
         });
     }
+
+    private boolean validateBookingForm(
+            ComboBox<Vehicle> vehicleBox,
+            ComboBox<Employee> employeeBox,
+            ComboBox<Campus> campusBox,
+            DatePicker startPicker,
+            DatePicker endPicker,
+            TextArea output
+    ) {
+        Vehicle vehicle = vehicleBox.getValue();
+        Employee employee = employeeBox.getValue();
+        Campus campus = campusBox.getValue();
+
+        //  Check that all required fields are filled
+        if (vehicle == null || employee == null || campus == null ||
+                startPicker.getValue() == null || endPicker.getValue() == null) {
+            output.setText(" Please fill out all fields before booking.\n");
+            return false;
+        }
+
+        //  Convert JavaFX DatePicker values
+        Date startingDate = new Date(startPicker.getValue().getMonthValue() + "/" +
+                startPicker.getValue().getDayOfMonth() + "/" + startPicker.getValue().getYear());
+        Date endingDate = new Date(endPicker.getValue().getMonthValue() + "/" +
+                endPicker.getValue().getDayOfMonth() + "/" + endPicker.getValue().getYear());
+
+        // Validate chronological order
+        if (endingDate.compareTo(startingDate) < 0) {
+            output.setText(" Ending date cannot be before starting date.\n");
+            return false;
+        }
+
+        //  Validate booking not in the past
+        Date today = Date.getToday();
+        if (startingDate.compareTo(today) < 0) {
+            output.setText(" Cannot book a vehicle in the past.\n");
+            return false;
+        }
+
+        //  Validate max 3 months from today
+        Date threeMonthsFromToday = Date.getThreeMonthsFromToday();
+        if (startingDate.compareTo(threeMonthsFromToday) > 0) {
+            output.setText(" Cannot book more than 3 months in advance.\n");
+            return false;
+        }
+
+        //  Validate trip duration ≤ 7 days
+        int dayDifference = daysBetween(startingDate, endingDate);
+        if (dayDifference > 7) {
+            output.setText(" Booking cannot exceed 7 days.\n");
+            return false;
+        }
+
+        //  Check vehicle availability
+        if (!isVehicleAvailable(vehicle, startingDate, endingDate)) {
+            output.setText(" Vehicle " + vehicle.getPlate() + " is not available on those dates.\n");
+            return false;
+        }
+
+        //  Check if employee already has a conflicting booking
+        if (employeeConflict(employee, startingDate, endingDate)) {
+            output.setText(" Employee " + employee + " already has a booking that overlaps these dates.\n");
+            return false;
+        }
+
+        return true;
+    }
     @FXML
     private void initializeBookButton() {
         bookButton.setOnAction(e -> {
+            boolean isValid = validateBookingForm(
+                    vehicleDropDownFromFleet,
+                    employeeDropDown,
+                    campusDropDown2,
+                    startDateInput,
+                    endDateInput,
+                    outputTextAreaManagement2
+            );
+            if (!isValid) return;
+
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
-            if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null ||
-                    startDateInput.getValue() == null || endDateInput.getValue() == null) {
-                outputTextAreaManagement2.setText("Please fill out all fields before booking.\n");
-                return;
-            }
-            String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth()
-                    + "/" + startDateInput.getValue().getYear();
-            String endingDateStr = (endDateInput.getValue().getMonthValue()) + "/" + endDateInput.getValue().getDayOfMonth()
-                    + "/" + endDateInput.getValue().getYear();
-            Date startingDate = new Date(startingDateStr);
-            Date endingDate = new Date(endingDateStr);
-            Date today = Date.getToday();
-            Date threeMonthsFromToday = Date.getThreeMonthsFromToday();
-            if (startingDate.compareTo(today) < 0) {
-                outputTextAreaManagement2.setText("Cannot book a vehicle in the past.\n");
-                return;
-            }
-            if (endingDate.compareTo(startingDate) < 0) {
-                outputTextAreaManagement2.setText("Ending date cannot be before starting date.\n");
-                return;
-            }
-            if (startingDate.compareTo(threeMonthsFromToday) > 0) {
-                outputTextAreaManagement2.setText("Cannot book more than three months in advance.\n");
-                return;
-            }
+
+            Date start = new Date(startDateInput.getValue().getMonthValue() + "/" +
+                    startDateInput.getValue().getDayOfMonth() + "/" +
+                    startDateInput.getValue().getYear());
+            Date end = new Date(endDateInput.getValue().getMonthValue() + "/" +
+                    endDateInput.getValue().getDayOfMonth() + "/" +
+                    endDateInput.getValue().getYear());
+
             Vehicle vehicleFromFleet = fleet.getVehicle(selectedVehicle);
-            if (vehicleFromFleet == null) {
-                outputTextAreaManagement2.setText("Selected vehicle does not exist in the fleet.\n");
-                return;
-            }
-            Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
+            Booking booking = new Booking(start, end, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
+
             if (!vehicleDropDownFromReservation.getItems().contains(booking)) {
                 vehicleDropDownFromReservation.getItems().add(booking);
             }
-            outputTextAreaManagement2.setText(booking.toString() + " has been booked.\n");
+
+            outputTextAreaManagement2.setText("Booking confirmed: " + booking + "\n");
         });
     }
     @FXML
@@ -435,7 +494,7 @@ public class Controller {
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
             if (selectedVehicle == null || selectedEmployee == null || selectedCampus == null) {
-                outputTextAreaManagement2.appendText("Please fill out all fields before removing.\n");
+                outputTextAreaManagement2.setText("Please fill out all fields before removing.\n");
                 return;
             }
             String startingDateStr = (startDateInput.getValue().getMonthValue()) + "/" + startDateInput.getValue().getDayOfMonth()
@@ -497,7 +556,7 @@ public class Controller {
             vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
             outputTextAreaManagement2.setText("Vehicles successfully loaded into the fleet.\n");
         } catch (Exception T) {
-            outputTextAreaManagement2.appendText("Error loading file: " + T.getMessage() + "\n");
+            outputTextAreaManagement2.setText("Error loading file: " + T.getMessage() + "\n");
         }
         });
     }
@@ -535,15 +594,15 @@ public class Controller {
             String mileageText = mileageTextFieldReservation.getText();
 
             if (selectedBooking == null) {
-                outputTextAreaManagement3.appendText("Please select a booking to complete.\n");
+                outputTextAreaManagement3.setText("Please select a booking to complete.\n");
                 return;
             }
             if (selectedDropoff == null) {
-                outputTextAreaManagement3.appendText("Please select a drop-off campus.\n");
+                outputTextAreaManagement3.setText("Please select a drop-off campus.\n");
                 return;
             }
             if (mileageText == null || mileageText.isBlank()) {
-                outputTextAreaManagement3.appendText("Please enter the new mileage.\n");
+                outputTextAreaManagement3.setText("Please enter the new mileage.\n");
                 return;
             }
 
@@ -551,19 +610,19 @@ public class Controller {
             try {
                 newMileage = Integer.parseInt(mileageText.trim());
             } catch (NumberFormatException ex) {
-                outputTextAreaManagement3.appendText("Mileage must be a numeric value.\n");
+                outputTextAreaManagement3.setText("Mileage must be a numeric value.\n");
                 return;
             }
 
             Vehicle vehicle = selectedBooking.getVehicle();
             if (vehicle == null) {
-                outputTextAreaManagement3.appendText("Booking does not have a vehicle.\n");
+                outputTextAreaManagement3.setText("Booking does not have a vehicle.\n");
                 return;
             }
 
             int oldMileage = vehicle.getMileage(); // or getMileage(), depending on your Vehicle class
             if (newMileage < oldMileage) {
-                outputTextAreaManagement3.appendText("New mileage cannot be less than old mileage.\n");
+                outputTextAreaManagement3.setText("New mileage cannot be less than old mileage.\n");
                 return;
             }
 
@@ -742,4 +801,68 @@ public class Controller {
         }
         outputTextAreaReport.setText(tripList.printCharges());
     }
+
+ //FrontEnd methods needed
+ private boolean isVehicleAvailable(Vehicle vehicle, Date start, Date end) {
+     for (int i = 0; i < reservation.Size(); i++) {
+         Booking b = reservation.get(i);
+         if (b.getVehicle().equals(vehicle)) {
+             boolean overlaps = !(b.getEnd().compareTo(start) < 0 || b.getBegin().compareTo(end) > 0);
+             if (overlaps) return false;
+         }
+     }
+     return true;
+ }
+
+    private int daysBetween(Date startingDate, Date endingDate) {
+        if (startingDate == null || endingDate == null) return 0;
+
+        Calendar start = convertDateToCalendar(startingDate);
+        Calendar end   = convertDateToCalendar(endingDate);
+
+        start.set(Calendar.HOUR_OF_DAY, 0);
+        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.MILLISECOND, 0);
+
+        end.set(Calendar.HOUR_OF_DAY, 0);
+        end.set(Calendar.MINUTE, 0);
+        end.set(Calendar.SECOND, 0);
+        end.set(Calendar.MILLISECOND, 0);
+
+        long diffMillis = end.getTimeInMillis() - start.getTimeInMillis();
+        return (int) (diffMillis / (24L * 60 * 60 * 1000));
+    }
+
+
+    private Calendar convertDateToCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, date.getYear());
+        cal.set(Calendar.MONTH, date.getMonth() - 1);
+        cal.set(Calendar.DAY_OF_MONTH, date.getDay());
+        return cal;
+    }
+
+    private boolean employeeConflict(Employee emp, Date start, Date end) {
+        for (int i = 0; i < reservation.Size(); i++) {
+            Booking existing = reservation.get(i);
+
+            if (existing.getEmployee().equals(emp)) {
+                Date existingStart = existing.getBegin();
+                Date existingEnd = existing.getEnd();
+
+                // Check for overlapping ranges
+                boolean overlap = !(end.compareTo(existingStart) < 0 || start.compareTo(existingEnd) > 0);
+                if (overlap) {
+                    return true; // conflict detected
+                }
+            }
+        }
+        return false; // no conflicts
+    }
+
+
+
+
 }
+

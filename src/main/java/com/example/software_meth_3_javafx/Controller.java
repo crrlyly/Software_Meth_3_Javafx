@@ -44,6 +44,8 @@ public class Controller {
     @FXML private Button completeTripButton;
     @FXML private TextArea outputTextAreaManagement;
     @FXML private TextArea outputTextAreaManagement2;
+    @FXML private TextArea outputTextAreaManagement3;
+
     @FXML private GridPane addGrid;
     @FXML private ComboBox<String> printReservationsDropDown;
     @FXML private ComboBox<String> printCompletedTripsDropDown;
@@ -419,6 +421,10 @@ public class Controller {
             }
             Booking booking = new Booking(startingDate, endingDate, selectedEmployee, vehicleFromFleet, selectedCampus);
             reservation.add(booking);
+            Vehicle bookedVehicle = vehicleFromFleet;
+            if (!vehicleDropDownFromReservation.getItems().contains(bookedVehicle)) {
+                vehicleDropDownFromReservation.getItems().add(bookedVehicle);
+            }
             outputTextAreaManagement2.setText(booking.toString() + " has been booked.\n");
         });
     }
@@ -498,13 +504,76 @@ public class Controller {
     @FXML
     private void initVehicleReturn(){
         initializeVehicleDropDownFromReservation();
+        initializeCompleteTripButton();
         endDateReservation.setEditable(false);
     }
 
     private void initializeVehicleDropDownFromReservation(){
+        vehicleDropDownFromReservation.getItems().clear();
+        for (int i = 0; i < reservation.Size(); i++) {
+            Vehicle v = reservation.get(i).getVehicle();
+            if (!vehicleDropDownFromReservation.getItems().contains(v)) {
+                vehicleDropDownFromReservation.getItems().add(v);
+            }
+        }
 
+        vehicleDropDownFromReservation.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                System.out.println("Selected reserved vehicle: " + newVal);
+            }
+        });
     }
+    private void initializeCompleteTripButton(){
+            completeTripButton.setOnAction(e -> {
+            Vehicle selectedVehicle = vehicleDropDownFromReservation.getValue();
+            String mileageStr = mileageTextFieldReservation.getText();
 
+            // Validation
+            if (selectedVehicle == null || mileageStr == null || mileageStr.isBlank()) {
+                outputTextAreaManagement3.appendText("Please select a vehicle and enter mileage.\n");
+                return;
+            }
+
+            int endMileage;
+            try {
+                endMileage = Integer.parseInt(mileageStr);
+            } catch (NumberFormatException ex) {
+                outputTextAreaManagement3.appendText("Mileage must be a number.\n");
+                return;
+            }
+
+
+                String endDateStr = (endDateReservation.getValue().getMonthValue() + "/" +
+                        endDateReservation.getValue().getDayOfMonth() + "/" +
+                        endDateReservation.getValue().getYear());
+                Date endDate = new Date(endDateStr);
+            Booking foundBooking = null;
+            for (int i = 0; i < reservation.Size(); i++) {
+                Booking b = reservation.get(i);
+                if (b.getVehicle().equals(selectedVehicle) && b.getEnd().equals(endDate)) {
+                    foundBooking = b;
+                    break;
+                }
+            }
+
+            if (foundBooking == null) {
+                outputTextAreaManagement3.appendText("No active booking found for this vehicle.\n");
+                return;
+            }
+            int beginMileage = selectedVehicle.getMileage();
+            boolean surcharge = !foundBooking.getVehicle().getCampus().equals(foundBooking.getDropoff());
+
+            Trip trip = new Trip(foundBooking, beginMileage, endMileage, surcharge);
+            tripList.add(trip);
+
+            selectedVehicle.setMileage(endMileage);
+            reservation.remove(foundBooking);
+            vehicleDropDownFromReservation.getItems().remove(selectedVehicle);
+
+                outputTextAreaManagement3.appendText("Vehicle returned: " + selectedVehicle.getPlate() + "\n");
+                outputTextAreaManagement3.appendText("Trip recorded: " + trip.toString() + "\n\n");
+        });
+    }
     // VEHICLE REPORT -----------------------------------------------------------------------------
     @FXML
     private void initializePrintReservationsDropDown(){

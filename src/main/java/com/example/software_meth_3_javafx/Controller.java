@@ -605,12 +605,12 @@ public class Controller {
             vehicle.setMileage(newMileage);
             initializeVehicleDropDownFromReservation();
             Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
-            moveFromReservationtoTripList(newTrip, selectedBooking, vehicle, surcharge, newMileage);
+            moveFromReservationToTripList(newTrip, selectedBooking, vehicle, surcharge, newMileage);
         });
     }
 
     @FXML
-    private void moveFromReservationtoTripList(Trip newTrip, Booking booking, Vehicle vehicle, boolean surcharge, int newMileage){
+    private void moveFromReservationToTripList(Trip newTrip, Booking booking, Vehicle vehicle, boolean surcharge, int newMileage){
         tripList.add(newTrip);
         reservation.remove(booking);
         vehicleDropDownFromReservation.getItems().remove(booking);

@@ -546,20 +546,40 @@ public class Controller {
     }
 
     @FXML
+    private boolean checkCompleteTripEmpty(Booking booking){
+        if (booking == null) {
+            outputTextAreaManagement3.setText("Please select a booking to complete. If no vehicles are in the booking list," +
+                    " please go book a vehicle in the Vehicle Reservation tab.\n");
+            return true;
+        }
+        String mileageText = mileageTextFieldReservation.getText();
+        if (mileageText == null || mileageText.trim().isEmpty()) {
+            outputTextAreaManagement3.setText("Please enter the new mileage.\n");
+            return true;
+        }
+        if(!reservation.findInstanceOfVehicle(booking)){
+            outputTextAreaManagement3.setText(booking.getVehicle().getPlate() + " booked with end date " + booking.getEnd() + " - cannot find the booking.");
+            return true;
+        }
+        Date earliest = findEarliestEndDate(booking);
+        Date currEnd = booking.getEnd();
+        if(earliest.compareTo(booking.getEnd()) != 0 || currEnd.compareTo(earliest) > 0){
+            outputTextAreaManagement3.setText(booking.getVehicle().getPlate() + " booked with end date " + booking.getEnd() + " - returning not in order of ending date.");
+            return true;
+        }
+        return false;
+    }
+
+
+    @FXML
     private void initializeCompleteTripButton() {
         completeTripButton.setOnAction(e -> {
             Booking selectedBooking = vehicleDropDownFromReservation.getValue();
-            if (selectedBooking == null) {
-                outputTextAreaManagement3.setText("Please select a booking to complete. If no vehicles are in the booking list," +
-                        " please go book a vehicle in the Vehicle Reservation tab.\n");
+            if (checkCompleteTripEmpty(selectedBooking)) {
                 return;
             }
             Campus selectedDropoff = selectedBooking.getDropoff();
             String mileageText = mileageTextFieldReservation.getText();
-            if (mileageText == null || mileageText.trim().isEmpty()) {
-                outputTextAreaManagement3.setText("Please enter the new mileage.\n");
-                return;
-            }
             int newMileage;
             try {
                 newMileage = Integer.parseInt(mileageText.trim());
@@ -568,13 +588,13 @@ public class Controller {
                 return;
             }
             Vehicle vehicle = selectedBooking.getVehicle();
-            if (vehicle == null) {
-                outputTextAreaManagement3.setText("Booking does not have a vehicle.\n");
+            int oldMileage = vehicle.getMileage();
+            if (newMileage <= 0) {
+                outputTextAreaManagement3.setText("Invalid mileage (cannot be less than or equal to 0).\n");
                 return;
             }
-            int oldMileage = vehicle.getMileage(); // or getMileage(), depending on your Vehicle class
-            if (newMileage < oldMileage) {
-                outputTextAreaManagement3.setText("New mileage cannot be less than old mileage.\n");
+            if (newMileage <= oldMileage) {
+                outputTextAreaManagement3.setText("New mileage must be greater than old mileage.\n");
                 return;
             }
             boolean surcharge = false;
@@ -585,18 +605,43 @@ public class Controller {
             vehicle.setMileage(newMileage);
             initializeVehicleDropDownFromReservation();
             Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
-            tripList.add(newTrip);
-            reservation.remove(selectedBooking);
-            vehicleDropDownFromReservation.getItems().remove(selectedBooking);
-            String msg = "Trip completed for vehicle " + vehicle.getPlate() +
-                    (surcharge ? " (surcharge applied)" : "") +
-                    ". New mileage: " + newMileage + "\n";
-            outputTextAreaManagement3.setText(msg);
-            vehicleDropDownFromReservation.getSelectionModel().clearSelection();
-            mileageTextFieldReservation.clear();
-            clearInputs();
+            moveFromReservationtoTripList(newTrip, selectedBooking, vehicle, surcharge, newMileage);
         });
     }
+
+    @FXML
+    private void moveFromReservationtoTripList(Trip newTrip, Booking booking, Vehicle vehicle, boolean surcharge, int newMileage){
+        tripList.add(newTrip);
+        reservation.remove(booking);
+        vehicleDropDownFromReservation.getItems().remove(booking);
+        String msg = "Trip completed for vehicle " + vehicle.getPlate() + (surcharge ? " (surcharge applied)" : "") +
+                ". New mileage: " + newMileage + "\n";
+        outputTextAreaManagement3.setText(msg);
+        vehicleDropDownFromReservation.getSelectionModel().clearSelection();
+        mileageTextFieldReservation.clear();
+        clearInputs();
+    }
+
+
+    /**
+     * Finds the index (in reservation) of the booking for the same vehicle
+     * whose end date is earliest.
+     *
+     * @param booking a reference booking used for matching
+     * @return the index of the earliest ending booking for that vehicle;
+     * -1 if none is found
+     */
+    private Date findEarliestEndDate(Booking booking){
+        Date earliest = booking.getEnd();
+        for(int i = 0; i < reservation.Size(); i++){
+            if(reservation.toArray()[i].getEnd().compareTo(earliest) <= 0){
+                earliest = reservation.toArray()[i].getEnd();
+            }
+
+        }
+        return earliest;
+    }
+
     // VEHICLE REPORT -----------------------------------------------------------------------------
     @FXML
     private void initializePrintReservationsDropDown(){
@@ -730,7 +775,7 @@ public class Controller {
             return;
         }
         outputTextAreaReport.setText("*List of completed trips ordered by license plate and ending date.\n");
-        tripList.print();
+        outputTextAreaReport.appendText(tripList.print());
         outputTextAreaReport.appendText("*end of list.");
     }
 

@@ -1,36 +1,4 @@
-Vehicle Management System is running.
 
-a - invalid command!
-b - invalid command!
-c - invalid command!
-d - invalid command!
-r - invalid command!
-pf - invalid command!
-pr - invalid command!
-pd - invalid command!
-pt - invalid command!
-pc - invalid command!
-There is no vehicle in the fleet.
-There is no booking record.
-There is no booking record.
-There is no completed trips.
-There is no archived trips for the cost report.
-718D - license plate number must be exactly 6 characters.
-5871812D - license plate number must be exactly 6 characters.
-58718A - last character is not a valid vehicle type.
-58X18A - first 5 characters must be numbers.
-0/1/2000 - invalid calendar date.
-13/11/2000 - invalid calendar date.
-2/29/1999 - invalid calendar date.
-6/31/2000 - invalid calendar date.
-7/32/2000 - invalid calendar date.
-7/0/2000 - invalid calendar date.
-food - invalid make.
-0 - invalid mileage.
--1 - invalid mileage.
-For input string: "XX" - not a valid mileage.
-living - invalid location.
-Missing data tokens for adding a vehicle.
 20 vehicles loaded.
 0 vehicles loaded.
 0 vehicles loaded.
@@ -58,28 +26,21 @@ Missing data tokens for adding a vehicle.
 *end of list.
 
 58718D has been removed from the fleet.
+
 58718D is not in the fleet.
 Missing data tokens for removing a vehicle.
 58718D[FORD:utility] 2/29/2020 [mileage:64390] [Busch:New Brunswick] has been added to the fleet.
-11/31/2025 - beginning date is not a valid calendar date.
-0/2/2026 - beginning date is not a valid calendar date.
-10/16/2025 - ending date must be equal or after the beginning date 10/30/2025
-9/20/2025 - beginning date is not today or a future date.
-1/27/2026 - beginning date beyond 3 months.
-13/16/2025 - ending date is not a valid calendar date.
-11/0/2025 - ending date is not a valid calendar date.
-John - not an eligible employee to book.
-Bussch - invalid location.
+
 11/24/2025 ~ 12/1/2025 - duration more than a week.
 58719D:TOYOTA [Livingston:New Brunswick] 11/24/2025 ~ 11/30/2025 [drop off:Busch] [LIM] booked.
 11/30/2025 ~ 12/7/2025 - duration more than a week.
 58719D - booking with 11/30/2025 ~ 12/6/2025 not available.
 LIM - has an existing booking conflicting with booking date 11/30/2025 ~ 12/6/2025
 LIM - has an existing booking conflicting with booking date 11/20/2025 ~ 11/24/2025
-08719D is not in the fleet.
 58719D:TOYOTA [Livingston:New Brunswick] 10/27/2025 ~ 10/30/2025 [drop off:Newark] [TAYLOR] booked.
 58719D - booking with 10/27/2025 ~ 10/30/2025 not available.
 58718D:FORD [Busch:New Brunswick] 10/28/2025 ~ 10/28/2025 [drop off:Busch] [KAUR] booked.
+
 58719D - booking with 10/30/2025 ~ 11/3/2025 not available.
 58718D:FORD [Busch:New Brunswick] 10/31/2025 ~ 11/3/2025 [drop off:Busch] [LIM] booked.
 TAYLOR - has an existing booking conflicting with booking date 10/27/2025 ~ 10/27/2025
@@ -141,7 +102,7 @@ KAUR - has an existing booking conflicting with booking date 10/28/2025 ~ 10/28/
 
 58718D:11/4/2025 ~ 11/4/2025 has been canceled.
 58718D:11/4/2025 ~ 11/4/2025 - cannot find the booking.
-58719D booked with ending date 10/17/2025 - cannot find the booking.
+
 58719D booked with end date 10/30/2025 - returning not in order of ending date.
 0 - invalid mileage.
 Invalid mileage - current mileage: 64390 entered mileage: 64000
@@ -158,8 +119,10 @@ Trip completed: 67359S 10/31/2025 ~ 11/2/2025 mileage(old): 59644 mileage(new): 
 Trip completed: 34123X 11/3/2025 ~ 11/3/2025 mileage(old): 51010 mileage(new): 51321 mileage(used): 311 [dropped off: Busch**] [picked up: Camden]
 Trip completed: 58718D 10/31/2025 ~ 11/3/2025 mileage(old): 64629 mileage(new): 65100 mileage(used): 471 [dropped off: Busch] [picked up: Busch]
 Trip completed: 67359S 11/3/2025 ~ 11/3/2025 mileage(old): 59800 mileage(new): 59999 mileage(used): 199 [dropped off: Livingston] [picked up: Livingston]
+
 58719D - has existing bookings; cannot be removed.
 23499X has been removed from the fleet.
+
 *List of reservations ordered by location/license plate/beginning date.
 47990S:HONDA [Camden:Camden] 11/16/2025 ~ 11/16/2025 [drop off:Busch] [PATEL]
 47990S:HONDA [Camden:Camden] 11/20/2025 ~ 11/25/2025 [drop off:Busch] [PATEL]

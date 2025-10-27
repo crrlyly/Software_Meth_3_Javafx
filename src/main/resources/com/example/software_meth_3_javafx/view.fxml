@@ -24,9 +24,9 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <TabPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="mainTabPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Vehicle Management ">
+          <Tab fx:id="vehicleManagementTab" text="Vehicle Management ">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -132,11 +132,11 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Vehicle Reservation">
+          <Tab fx:id="vehicleReservationTab" text="Vehicle Reservation">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="560.0">
                      <children>
-                        <GridPane layoutX="1.0" layoutY="41.0" prefHeight="337.0" prefWidth="560.0" AnchorPane.topAnchor="41.0">
+                        <GridPane fx:id="bookingGrid" layoutX="1.0" layoutY="41.0" prefHeight="337.0" prefWidth="560.0" AnchorPane.topAnchor="41.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.39996337890625" minWidth="10.0" prefWidth="180.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="380.0" />
@@ -181,11 +181,7 @@
                               </Button>
                               <DatePicker fx:id="startDateInput" prefHeight="26.0" prefWidth="280.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" />
                               <DatePicker fx:id="endDateInput" prefHeight="26.0" prefWidth="282.0" promptText="Use the icon on the right side to pick a date..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <children>
-                                    <ComboBox fx:id="employeeDropDown" prefWidth="150.0" />
-                                 </children>
-                              </HBox>
+                              <ComboBox fx:id="employeeDropDown" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
                                     <Button fx:id="bookButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Book It">
@@ -208,7 +204,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Vehicle Return">
+            <Tab fx:id="vehicleReturnTab" text="Vehicle Return">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -255,7 +251,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Vehicle Reporting">
+            <Tab fx:id="vehicleReportingTab" text="Vehicle Reporting">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

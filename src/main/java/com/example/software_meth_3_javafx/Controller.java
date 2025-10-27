@@ -47,6 +47,7 @@ public class Controller {
     @FXML private TextArea outputTextAreaManagement3;
 
     @FXML private GridPane addGrid;
+    @FXML private GridPane bookingGrid;
     @FXML private ComboBox<String> printReservationsDropDown;
     @FXML private ComboBox<String> printCompletedTripsDropDown;
     @FXML private TextArea outputTextAreaReport;
@@ -155,8 +156,8 @@ public class Controller {
      * Method that clears all inputs on a tab.
      */
     @FXML
-    private void clearInputs() {
-        for (Node node : addGrid.getChildren()) {
+    private void clearInputs(GridPane grid) {
+        for (Node node : grid.getChildren()) {
             if (node instanceof TextField textField) {
                 textField.clear();
             }
@@ -177,7 +178,6 @@ public class Controller {
         }
         if (makeGroup != null) makeGroup.selectToggle(null);
     }
-
 
     // VEHICLE MANAGEMENT -----------------------------------------------------------------------------
 
@@ -337,7 +337,7 @@ public class Controller {
      */
     @FXML
     private void handleClearBtnClick(){
-        clearInputs();
+        clearInputs(addGrid);
     }
 
     /**
@@ -376,7 +376,7 @@ public class Controller {
      *
      * @param vehicle the vehicle to remove
      * @param booking booking to see if vehicle exists in bookings
-     * @return true if can be removed; otherwise false
+     * @return true if vehicle can be removed; otherwise false
      */
     @FXML
     private boolean removeChecks(Vehicle vehicle, Booking booking){
@@ -549,25 +549,21 @@ public class Controller {
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
-
         Stage stage = new Stage();
         File sourceFile = chooser.showOpenDialog(stage);
         if (sourceFile == null) {
             outputTextAreaManagement2.setText("No file selected.\n");
             return;
         }
-
         try (Scanner scanner = new Scanner(sourceFile)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
                 if (line.isEmpty()) continue;
-
                 String[] parts = line.split("\\s+");
                 if (parts.length < 5) {
                     outputTextAreaManagement2.setText("Invalid line format: " + line + "\n");
                     continue;
                 }
-
                 String plate = parts[0];
                 Date date = new Date(parts[1]);
                 Make make = Make.valueOf(parts[2].toUpperCase());
@@ -667,6 +663,8 @@ public class Controller {
                 return;
             }
             boolean surcharge = false;
+            Trip oldTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
+            String msg = "Trip completed: " + oldTrip + "\n";
             if (!vehicle.getCampus().equals(selectedDropOff)) {
                 surcharge = true;
                 vehicle.setCampus(selectedDropOff);
@@ -674,20 +672,19 @@ public class Controller {
             vehicle.setMileage(newMileage);
             initializeVehicleDropDownFromReservation();
             Trip newTrip = new Trip(selectedBooking, oldMileage, newMileage, surcharge);
-            moveFromReservationToTripList(newTrip, selectedBooking, vehicle, surcharge, newMileage);
+            moveFromReservationToTripList(newTrip, selectedBooking, msg);
         });
     }
 
     @FXML
-    private void moveFromReservationToTripList(Trip newTrip, Booking booking, Vehicle vehicle, boolean surcharge, int newMileage){
+    private void moveFromReservationToTripList(Trip newTrip, Booking booking, String msg){
         tripList.add(newTrip);
         reservation.remove(booking);
         vehicleDropDownFromReservation.getItems().remove(booking);
-        String msg = "Trip completed: " + newTrip.toString() + "\n";
         outputTextAreaManagement3.setText(msg);
         vehicleDropDownFromReservation.getSelectionModel().clearSelection();
         mileageTextFieldReservation.clear();
-        clearInputs();
+        clearInputs(bookingGrid);
     }
 
     /**
@@ -721,19 +718,6 @@ public class Controller {
         printReservationsDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
-
-//                switch (newVal) {
-//                    case "by department/employee (PD)":
-//                        handlePrintByDepartment();
-//                        break;
-//
-//                    case "by location/plate/beginning date (PR)":
-//                        handlePrintByLocation();
-//                        break;
-//
-//                    default:
-//                        System.out.println("Unknown selection");
-//                }
             }
         });
     }
@@ -748,19 +732,6 @@ public class Controller {
         printCompletedTripsDropDown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 System.out.println("Selected: " + newVal);
-
-//                switch (newVal) {
-//                    case "by department/employee (PD)":
-//                        handlePrintByDepartment();
-//                        break;
-//
-//                    case "by location/plate/beginning date (PR)":
-//                        handlePrintByLocation();
-//                        break;
-//
-//                    default:
-//                        System.out.println("Unknown selection");
-//                }
             }
         });
     }
@@ -781,8 +752,6 @@ public class Controller {
                 printCompletedTripsDropDown.getSelectionModel().clearSelection();
             }
         });
-//        printReservationsDropDown.setValue(null);
-//        printCompletedTripsDropDown.getSelectionModel().clearSelection();
     }
 
     /**

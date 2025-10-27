@@ -353,7 +353,6 @@ public class Controller {
 
     // VEHICLE RESERVATION -----------------------------------------------------------------------------
 
-    //add the importFileChooser method she has in modules to load in vehicles.txt
     @FXML
     private void initVehicleReservation(){
         initializeEmployeeDropDown();
@@ -375,6 +374,7 @@ public class Controller {
             }
         });
     }
+
     @FXML
     private void initializeVehicleDropDownFromFleet(){
         vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
@@ -385,6 +385,7 @@ public class Controller {
         });
     }
 
+    @FXML
     private boolean validateBookingForm(ComboBox<Vehicle> vehicleBox, ComboBox<Employee> employeeBox,
             ComboBox<Campus> campusBox, DatePicker startPicker, DatePicker endPicker, TextArea output
     ) {
@@ -426,6 +427,7 @@ public class Controller {
         }
         return true;
     }
+
     @FXML
     private void initializeBookButton() {
         bookButton.setOnAction(e -> {
@@ -446,6 +448,7 @@ public class Controller {
             outputTextAreaManagement2.setText("Booking confirmed: " + booking + "\n");
         });
     }
+
     @FXML
     private void initializeCancelButton(){
         cancelButton.setOnAction(e -> {
@@ -473,6 +476,7 @@ public class Controller {
             outputTextAreaManagement2.setText("Booking removed: " + found.toString() + "\n");
         });
     }
+
     @FXML
     private void initializeFileLoadButton() {
         fileLoadButton.setOnAction(e ->{
@@ -519,13 +523,16 @@ public class Controller {
         }
         });
     }
+
     // VEHICLE RETURN -----------------------------------------------------------------------------
+
     @FXML
     private void initVehicleReturn(){
         initializeVehicleDropDownFromReservation();
         initializeCompleteTripButton();
     }
 
+    @FXML
     private void initializeVehicleDropDownFromReservation(){
         vehicleDropDownFromReservation.getItems().clear();
 
@@ -569,7 +576,6 @@ public class Controller {
         }
         return false;
     }
-
 
     @FXML
     private void initializeCompleteTripButton() {
@@ -621,7 +627,6 @@ public class Controller {
         mileageTextFieldReservation.clear();
         clearInputs();
     }
-
 
     /**
      * Finds the index (in reservation) of the booking for the same vehicle
@@ -789,6 +794,7 @@ public class Controller {
     }
 
  //FrontEnd methods needed
+
     private boolean isVehicleAvailable(Vehicle vehicle, Date start, Date end) {
      for (int i = 0; i < reservation.Size(); i++) {
          Booking b = reservation.get(i);

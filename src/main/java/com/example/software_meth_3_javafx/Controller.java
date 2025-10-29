@@ -651,10 +651,6 @@ public class Controller {
             outputTextAreaManagement3.setText("Please enter the new mileage.\n");
             return true;
         }
-        if(!reservation.findInstanceOfVehicle(booking)){
-            outputTextAreaManagement3.setText(booking.getVehicle().getPlate() + " booked with end date " + booking.getEnd() + " - cannot find the booking.");
-            return true;
-        }
         Date earliest = findEarliestEndDate(booking);
         Date currEnd = booking.getEnd();
         if(earliest.compareTo(booking.getEnd()) != 0 || currEnd.compareTo(earliest) > 0){

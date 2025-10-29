@@ -491,7 +491,7 @@ public class Controller {
             return false;
         }
         if (daysBetween(startingDate, endingDate) >= 7) {
-            output.setText(startingDate + " ~ " + endingDate + " - duration more than a week.\n");
+            output.setText(startingDate + " ~ " + endingDate + " - cannot book a duration more than a week.\n");
             return false;
         }
         if (!isVehicleAvailable(vehicle, startingDate, endingDate)) {
@@ -513,7 +513,9 @@ public class Controller {
         bookButton.setOnAction(e -> {
             boolean isValid = validateBookingForm(vehicleDropDownFromFleet, employeeDropDown, campusDropDown2,
                     startDateInput, endDateInput, outputTextAreaManagement2);
-            if (!isValid) return;
+            if (!isValid){
+                return;
+            }
             Vehicle selectedVehicle = vehicleDropDownFromFleet.getValue();
             Employee selectedEmployee = employeeDropDown.getValue();
             Campus selectedCampus = campusDropDown2.getValue();
@@ -596,10 +598,12 @@ public class Controller {
                 Vehicle vehicle = createVehicle(plate, date, make, mileage, campus);
                 if (vehicle != null) {
                     fleet.add(vehicle);
+                    outputTextAreaManagement2.setText("Vehicle successfully loaded into the fleet.\n");
                 }
+                else outputTextAreaManagement2.setText("Vehicle unsuccessfully loaded into the fleet.\n");
             }
             vehicleDropDownFromFleet.getItems().setAll(fleet.getFleet());
-            outputTextAreaManagement2.setText("Vehicles successfully loaded into the fleet.\n");
+
         } catch (Exception T) {
             outputTextAreaManagement2.setText("Error loading file: " + T.getMessage() + "\n");
         }

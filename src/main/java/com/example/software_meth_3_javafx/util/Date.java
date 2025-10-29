@@ -218,6 +218,11 @@ public class Date implements Comparable<Date> {
         return new Date(todayString);
 
     }
+
+    /**
+     * Returns the date three months from today.
+     * @return the date three months from today
+     */
     public static Date getThreeMonthsFromToday(){
         Calendar calendar = Calendar.getInstance(); // today
         calendar.add(Calendar.MONTH, 3); // add 3 months
